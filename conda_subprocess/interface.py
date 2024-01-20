@@ -3,10 +3,44 @@ from subprocess import Popen
 
 from conda.auxlib.compat import shlex_split_unicode
 from conda.base.context import context, validate_prefix_name
-from conda.common.compat import encode_arguments, encode_environment, isiterable
-from conda.utils import wrap_subprocess_call
-from conda.common.path import expand
 from conda.cli.common import validate_prefix
+from conda.common.compat import encode_arguments, encode_environment, isiterable
+from conda.common.path import expand
+from conda.gateways.subprocess import subprocess_call
+from conda.utils import wrap_subprocess_call
+
+
+def conda_subprocess_call(args, cwd, prefix_name=None, prefix_path=None):
+    """
+
+    Args:
+        args:
+        cwd:
+        prefix_name (str / None): Name of the conda environment
+        prefix_path (str / None): Path of the conda environment
+
+    Returns:
+
+    """
+    return subprocess_call(
+        command=wrap_subprocess_call(
+            root_prefix=context.root_prefix,
+            prefix=validate_prefix(  # ensure prefix exists
+                prefix=_check_prefix(
+                    prefix_name=prefix_name,
+                    prefix_path=prefix_path,
+                )
+            ),
+            dev_mode=False,
+            debug_wrapper_scripts=False,
+            arguments=_check_args(args=args),
+            use_system_tmp_path=True,
+        )[1],
+        env=encode_environment(os.environ.copy()),
+        path=cwd,
+        raise_on_error=True,
+        capture_output=True,
+    )
 
 
 def conda_subprocess_popen(
@@ -17,7 +51,6 @@ def conda_subprocess_popen(
     stderr=None,
     preexec_fn=None,
     close_fds=True,
-    shell=False,
     cwd=None,
     prefix_name=None,
     prefix_path=None,
@@ -37,20 +70,18 @@ def conda_subprocess_popen(
     pipesize=-1,
     process_group=None
 ):
-    if prefix_name is None and prefix_path is None:
-        prefix = context.default_prefix
-    elif prefix_path is not None:
-        prefix = expand(prefix_path)
-    else:
-        prefix = validate_prefix_name(prefix_name, ctx=context)
-
     # create run script
     script, command = wrap_subprocess_call(
         root_prefix=context.root_prefix,
-        prefix=validate_prefix(prefix=prefix),  # ensure prefix exists
+        prefix=validate_prefix(
+            prefix=_check_prefix(
+                prefix_name=prefix_name,
+                prefix_path=prefix_path,
+            )
+        ),  # ensure prefix exists
         dev_mode=False,
         debug_wrapper_scripts=False,
-        arguments=args,
+        arguments=_check_args(args=args),
         use_system_tmp_path=True,
     )
 
@@ -66,7 +97,7 @@ def conda_subprocess_popen(
         stderr=stderr,
         preexec_fn=preexec_fn,
         close_fds=close_fds,
-        shell=shell,
+        shell=False,
         cwd=cwd,
         env=encode_environment(os.environ.copy()),
         universal_newlines=universal_newlines,
@@ -85,3 +116,19 @@ def conda_subprocess_popen(
         pipesize=pipesize,
         process_group=process_group
     )
+
+
+def _check_prefix(prefix_name=None, prefix_path=None):
+    if prefix_name is None and prefix_path is None:
+        return context.default_prefix
+    elif prefix_path is not None:
+        return expand(prefix_path)
+    else:
+        return validate_prefix_name(prefix_name, ctx=context)
+
+
+def _check_args(args):
+    if isinstance(args, str):
+        return args.split()
+    else:
+        return args

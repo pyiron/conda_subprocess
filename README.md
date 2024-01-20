@@ -9,7 +9,7 @@ conda create -n py312 python=3.12
 ### Call Function 
 Open a python shell in your base environment where `conda_subprocess` is installed:
 ```python
-from conda_subprocess.call import conda_subprocess_call
+from conda_subprocess import conda_subprocess_call
 conda_subprocess_call(["python", "--version"], cwd=".", prefix_name="py312")
 >>> Response(stdout='Python 3.12.1\n', stderr='', rc=0)
 ```
@@ -18,7 +18,7 @@ conda_subprocess_call(["python", "--version"], cwd=".", prefix_name="py312")
 For interactive communication between the conda environments `conda_subprocess` implements the `Popen` interface:
 ```python
 from subprocess import PIPE
-from conda_subprocess.popen import conda_subprocess_popen
+from conda_subprocess import conda_subprocess_popen
 process = conda_subprocess_popen(args=["python", "--version"], stdout=PIPE, prefix_name="py312")
 process.communicate()
 >>> (b'Python 3.12.1\n', None)
@@ -27,12 +27,11 @@ process.communicate()
 In addition to specifying the environment based on the `prefix_name`, it is also possible to specify the `prefix_path`:
 ```python
 from subprocess import PIPE
-from conda_subprocess.popen import conda_subprocess_popen
+from conda_subprocess import conda_subprocess_popen
 process = conda_subprocess_popen(args=["python", "--version"], stdout=PIPE, prefix_path="/Users/janssen/mambaforge/envs/py312")
 process.communicate()
 >>> (b'Python 3.12.1\n', None)
 ```
 
-### Bugs
-* The `args` in both `conda_subprocess_call()` and `conda_subprocess_popen()` have to be a list, not a string.
-* The `shell=True` option is not supported in `onda_subprocess_popen()`
+### Remarks
+* The `shell` parameter and the `env` parameter are not supported in `conda_subprocess_popen()`. 
