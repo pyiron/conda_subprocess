@@ -3,7 +3,7 @@ requires = ["conda", "versioneer[toml]==0.29"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pyiron_atomistics"
+name = "conda_subprocess"
 description = "Run a subprocess in a different conda environment."
 authors = [
     { name = "Jan Janssen", email = "janssen@mpie.de" },
