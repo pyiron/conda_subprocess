@@ -27,4 +27,5 @@ jobs:
       run: |
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
+        conda create -y -n py312 python=3.12.1
         python -m unittest discover tests
