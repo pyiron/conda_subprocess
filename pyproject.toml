@@ -1,0 +1,46 @@
+[build-system]
+requires = ["conda", "versioneer[toml]==0.29"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyiron_atomistics"
+description = "Run a subprocess in a different conda environment."
+authors = [
+    { name = "Jan Janssen", email = "janssen@mpie.de" },
+]
+readme = "README.md"
+license = { file = "LICENSE" }
+keywords = ["conda", "subprocess"]
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Utilities",
+    "License :: OSI Approved :: BSD License",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "conda==23.11.0",
+]
+dynamic = ["version"]
+
+[project.urls]
+Repository = "https://github.com/jan-janssen/conda_subprocess"
+
+[tool.setuptools.packages.find]
+include = ["conda_subprocess*"]
+
+[tool.setuptools.dynamic]
+version = {attr = "conda_subprocess.__version__"}
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440-pre"
+versionfile_source = "conda_subprocess/_version.py"
+parentdir_prefix = "conda_subprocess"
+tag_prefix = "conda_subprocess-"
