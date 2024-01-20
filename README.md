@@ -65,4 +65,4 @@ process.communicate()
 ```
 
 ## Remarks
-* The `shell` parameter and the `env` parameter are not supported in `conda_subprocess_popen()`. 
+* The `shell` parameter and the `env` parameter are not supported in `Popen()` and all derived methods. 
