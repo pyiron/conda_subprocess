@@ -84,26 +84,30 @@ def check_output(*popenargs, timeout=None, **kwargs):
     decoded according to locale encoding, or by "encoding" if set. Text mode
     is triggered by setting any of text, encoding, errors or universal_newlines.
     """
-    for kw in ('stdout', 'check'):
+    for kw in ("stdout", "check"):
         if kw in kwargs:
-            raise ValueError(f'{kw} argument not allowed, it will be overridden.')
+            raise ValueError(f"{kw} argument not allowed, it will be overridden.")
 
-    if 'input' in kwargs and kwargs['input'] is None:
+    if "input" in kwargs and kwargs["input"] is None:
         # Explicitly passing input=None was previously equivalent to passing an
         # empty string. That is maintained here for backwards compatibility.
-        if kwargs.get('universal_newlines') or kwargs.get('text') or kwargs.get('encoding') \
-                or kwargs.get('errors'):
-            empty = ''
+        if (
+            kwargs.get("universal_newlines")
+            or kwargs.get("text")
+            or kwargs.get("encoding")
+            or kwargs.get("errors")
+        ):
+            empty = ""
         else:
-            empty = b''
-        kwargs['input'] = empty
+            empty = b""
+        kwargs["input"] = empty
 
-    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
-               **kwargs).stdout
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True, **kwargs).stdout
 
 
-def run(*popenargs,
-        input=None, capture_output=False, timeout=None, check=False, **kwargs):
+def run(
+    *popenargs, input=None, capture_output=False, timeout=None, check=False, **kwargs
+):
     """Run command with arguments and return a CompletedProcess instance.
 
     The returned instance will have attributes args, returncode, stdout and
@@ -133,16 +137,17 @@ def run(*popenargs,
     The other arguments are the same as for the Popen constructor.
     """
     if input is not None:
-        if kwargs.get('stdin') is not None:
-            raise ValueError('stdin and input arguments may not both be used.')
-        kwargs['stdin'] = PIPE
+        if kwargs.get("stdin") is not None:
+            raise ValueError("stdin and input arguments may not both be used.")
+        kwargs["stdin"] = PIPE
 
     if capture_output:
-        if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
-            raise ValueError('stdout and stderr arguments may not be used '
-                             'with capture_output.')
-        kwargs['stdout'] = PIPE
-        kwargs['stderr'] = PIPE
+        if kwargs.get("stdout") is not None or kwargs.get("stderr") is not None:
+            raise ValueError(
+                "stdout and stderr arguments may not be used " "with capture_output."
+            )
+        kwargs["stdout"] = PIPE
+        kwargs["stderr"] = PIPE
 
     with Popen(*popenargs, **kwargs) as process:
         try:
@@ -167,6 +172,7 @@ def run(*popenargs,
             raise
         retcode = process.poll()
         if check and retcode:
-            raise CalledProcessError(retcode, process.args,
-                                     output=stdout, stderr=stderr)
+            raise CalledProcessError(
+                retcode, process.args, output=stdout, stderr=stderr
+            )
     return CompletedProcess(process.args, retcode, stdout, stderr)
