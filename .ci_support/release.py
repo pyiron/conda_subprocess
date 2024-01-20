@@ -45,7 +45,7 @@ def update_dependencies(setup_content, version_low_dict, version_high_dict):
 
 
 if __name__ == "__main__":
-    with open('../pyproject.toml', "r") as f:
+    with open('pyproject.toml', "r") as f:
         setup_content = f.readlines()
 
     with open('environment.yml', "r") as f:
@@ -57,5 +57,5 @@ if __name__ == "__main__":
         version_high_dict=get_setup_version_and_pattern(setup_content=setup_content[2:]),
     )
 
-    with open('../pyproject.toml', "w") as f:
+    with open('pyproject.toml', "w") as f:
         f.writelines("".join(setup_content[:2]) + setup_content_new)
