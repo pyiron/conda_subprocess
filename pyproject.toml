@@ -29,7 +29,7 @@ dependencies = [
 dynamic = ["version"]
 
 [project.urls]
-Repository = "https://github.com/jan-janssen/conda_subprocess"
+Repository = "https://github.com/pyiron/conda_subprocess"
 
 [tool.setuptools.packages.find]
 include = ["conda_subprocess*"]
