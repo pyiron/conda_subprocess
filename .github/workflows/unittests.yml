@@ -31,9 +31,6 @@ jobs:
         - operating-system: ubuntu-latest
           python-version: 3.9
 
-        - operating-system: ubuntu-latest
-          python-version: 3.8
-
     steps:
     - uses: actions/checkout@v2
     - uses: conda-incubator/setup-miniconda@v2.2.0

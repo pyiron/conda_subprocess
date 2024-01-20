@@ -66,3 +66,4 @@ process.communicate()
 
 ## Remarks
 * The `shell` parameter and the `env` parameter are not supported in `Popen()` and all derived methods. 
+* The `pipesize` parameter and the `process_group` parameter were removed for compatibility with python 3.9. 

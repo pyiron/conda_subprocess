@@ -33,8 +33,6 @@ def Popen(
     errors=None,
     text=None,
     umask=-1,
-    pipesize=-1,
-    process_group=None,
 ):
     # create run script
     script, command = wrap_subprocess_call(
@@ -79,8 +77,6 @@ def Popen(
         errors=errors,
         text=text,
         umask=umask,
-        pipesize=pipesize,
-        process_group=process_group,
     )
 
 
