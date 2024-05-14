@@ -18,21 +18,34 @@ class TestCondaSubprocess(TestCase):
 
     def test_check_output(self):
         if os.name == "nt":
-            self.assertEqual(check_output("python --version", prefix_path=self.env_path), b'Python 3.12.1\r\n')
+            self.assertEqual(
+                check_output("python --version", prefix_path=self.env_path),
+                b"Python 3.12.1\r\n",
+            )
         else:
-            self.assertEqual(check_output("python --version", prefix_path=self.env_path), b'Python 3.12.1\n')
+            self.assertEqual(
+                check_output("python --version", prefix_path=self.env_path),
+                b"Python 3.12.1\n",
+            )
 
     def test_check_output_universal_newlines(self):
-        self.assertEqual(check_output("python --version", prefix_path=self.env_path, universal_newlines=True), 'Python 3.12.1\n')
+        self.assertEqual(
+            check_output(
+                "python --version", prefix_path=self.env_path, universal_newlines=True
+            ),
+            "Python 3.12.1\n",
+        )
 
     def test_run(self):
-        self.assertEqual(run("python --version", prefix_path=self.env_path).returncode, 0)
+        self.assertEqual(
+            run("python --version", prefix_path=self.env_path).returncode, 0
+        )
 
     def test_popen(self):
         process = Popen("python --version", prefix_path=self.env_path, stdout=PIPE)
         output = process.communicate()
         if os.name == "nt":
-            self.assertEqual(output[0], b'Python 3.12.1\r\n')
+            self.assertEqual(output[0], b"Python 3.12.1\r\n")
         else:
-            self.assertEqual(output[0], b'Python 3.12.1\n')
+            self.assertEqual(output[0], b"Python 3.12.1\n")
         self.assertIsNone(output[1])
