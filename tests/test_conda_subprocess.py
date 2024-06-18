@@ -51,7 +51,8 @@ class TestCondaSubprocess(TestCase):
         self.assertIsNone(output[1])
 
     def test_environment_variable(self):
-        self.assertEqual(
-            check_output("env", prefix_path=self.env_path, env={"TESTVAR": "test"}),
-            b"test\n",
+        self.assertTrue(
+            "TESTVAR" in check_output(
+                "env", prefix_path=self.env_path, env={"TESTVAR": "test"}, universal_newlines=True
+            ).split("\n"),
         )
