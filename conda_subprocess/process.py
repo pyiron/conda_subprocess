@@ -18,6 +18,7 @@ def Popen(
     preexec_fn=None,
     close_fds=True,
     cwd=None,
+    env=None,
     prefix_name=None,
     prefix_path=None,
     universal_newlines=None,
@@ -52,6 +53,11 @@ def Popen(
     if not isiterable(command):
         command = shlex_split_unicode(command)
 
+    # update environment
+    if env is not None:
+        environment_dict = os.environ.copy()
+        environment_dict.update(env)
+
     # spawn subprocess
     return subprocess_Popen(
         args=encode_arguments(command),
@@ -63,7 +69,7 @@ def Popen(
         close_fds=close_fds,
         shell=False,
         cwd=cwd,
-        env=encode_environment(os.environ.copy()),
+        env=encode_environment(environment_dict),
         universal_newlines=universal_newlines,
         startupinfo=startupinfo,
         creationflags=creationflags,
