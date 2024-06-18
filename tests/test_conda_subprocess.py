@@ -49,3 +49,14 @@ class TestCondaSubprocess(TestCase):
         else:
             self.assertEqual(output[0], b"Python 3.12.1\n")
         self.assertIsNone(output[1])
+
+    def test_environment_variable(self):
+        self.assertTrue(
+            "TESTVAR=test"
+            in check_output(
+                "env",
+                prefix_path=self.env_path,
+                env={"TESTVAR": "test"},
+                universal_newlines=True,
+            ).split("\n"),
+        )
