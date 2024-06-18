@@ -54,8 +54,8 @@ def Popen(
         command = shlex_split_unicode(command)
 
     # update environment
+    environment_dict = os.environ.copy()
     if env is not None:
-        environment_dict = os.environ.copy()
         environment_dict.update(env)
 
     # spawn subprocess
