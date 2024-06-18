@@ -52,10 +52,6 @@ class TestCondaSubprocess(TestCase):
 
     def test_environment_variable(self):
         self.assertEqual(
-            call(
-                "echo ${TESTVAR}",
-                prefix_path=self.env_path,
-                env={"TESTVAR": "test"}
-            ),
+            call("echo ${TESTVAR}", prefix_path=self.env_path, env={"TESTVAR": "test"}),
             "test",
         )
