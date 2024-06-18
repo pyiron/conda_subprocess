@@ -52,7 +52,11 @@ class TestCondaSubprocess(TestCase):
 
     def test_environment_variable(self):
         self.assertTrue(
-            'TESTVAR=test' in check_output(
-                "env", prefix_path=self.env_path, env={"TESTVAR": "test"}, universal_newlines=True
+            "TESTVAR=test"
+            in check_output(
+                "env",
+                prefix_path=self.env_path,
+                env={"TESTVAR": "test"},
+                universal_newlines=True,
             ).split("\n"),
         )
