@@ -7,6 +7,7 @@ from conda_subprocess import call, check_call, check_output, run, Popen
 
 
 class TestCondaSubprocess(TestCase):
+    @classmethod
     def setUpClass(cls):
         cls.env_name = "py312"
         cls.env_path = os.path.join(context.root_prefix, "..", cls.env_name)
