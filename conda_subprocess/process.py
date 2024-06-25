@@ -152,7 +152,7 @@ def _validate_prefix_name(prefix_name: str, ctx: context, allow_base=True) -> st
     else:
         envs_dirs = context.envs_dirs
         envs_dirs += tuple(
-            os.path.abspath(os.path.join(os.environ["CONDA_EXE"], "..", ".."))
+            os.path.abspath(os.path.join(os.environ["CONDA_EXE"], "..", "..", "envs"))
         )
         try:
             return _locate_prefix_by_name(name=prefix_name, envs_dirs=envs_dirs)
