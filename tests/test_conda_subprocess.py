@@ -37,7 +37,9 @@ class TestCondaSubprocess(TestCase):
             )
 
     def test_check_output_name(self):
-        expected_output = b"Python 3.12.1\r\n" if os.name == "nt" else b"Python 3.12.1\n"
+        expected_output = (
+            b"Python 3.12.1\r\n" if os.name == "nt" else b"Python 3.12.1\n"
+        )
         self.assertEqual(
             check_output("python --version", prefix_name=self.env_name),
             expected_output,
