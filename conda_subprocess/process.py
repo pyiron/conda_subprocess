@@ -37,7 +37,7 @@ def Popen(
 ):
     # create run script
     script, command = wrap_subprocess_call(
-        root_prefix=context.root_prefix,
+        root_prefix=os.path.abspath(os.path.join(os.environ["CONDA_EXE"], "..", "..")),
         prefix=validate_prefix(
             prefix=_check_prefix(
                 prefix_name=prefix_name,
