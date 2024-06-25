@@ -47,6 +47,8 @@ jobs:
       timeout-minutes: 5
       run: |
         pip install versioneer[toml]==0.29
+        python -c "from conda.base.context import context; print(context.root_prefix)"
+        python -c "import os; print(os.path.abspath(os.path.join(os.environ[\"CONDA_EXE\"], \"..\", \"..\")))"
         pip install . --no-deps --no-build-isolation
         conda create -y -n py312 python=3.12.1
         python -m unittest discover tests
