@@ -3,7 +3,12 @@ from subprocess import Popen as subprocess_Popen
 
 from conda.auxlib.compat import shlex_split_unicode
 from conda.auxlib.ish import dals
-from conda.base.context import context, _first_writable_envs_dir, ROOT_ENV_NAME, PREFIX_NAME_DISALLOWED_CHARS
+from conda.base.context import (
+    context,
+    _first_writable_envs_dir,
+    ROOT_ENV_NAME,
+    PREFIX_NAME_DISALLOWED_CHARS,
+)
 from conda.exceptions import EnvironmentNameNotFound, CondaValueError
 from conda.cli.common import validate_prefix
 from conda.common.compat import encode_arguments, encode_environment, isiterable
@@ -122,7 +127,9 @@ def _locate_prefix_by_name(name, envs_dirs=None):
     raise EnvironmentNameNotFound(name)
 
 
-def _validate_prefix_name(prefix_name: str, ctx: context.Context, allow_base=True) -> str:
+def _validate_prefix_name(
+    prefix_name: str, ctx: context.Context, allow_base=True
+) -> str:
     """Run various validations to make sure prefix_name is valid"""
     if PREFIX_NAME_DISALLOWED_CHARS.intersection(prefix_name):
         raise CondaValueError(
@@ -146,7 +153,9 @@ def _validate_prefix_name(prefix_name: str, ctx: context.Context, allow_base=Tru
 
     else:
         envs_dirs = context.envs_dirs
-        envs_dirs += [os.path.abspath(os.path.join(os.environ["CONDA_EXE"], "..", ".."))]
+        envs_dirs += [
+            os.path.abspath(os.path.join(os.environ["CONDA_EXE"], "..", ".."))
+        ]
         try:
             return _locate_prefix_by_name(name=prefix_name, envs_dirs=envs_dirs)
         except EnvironmentNameNotFound:
