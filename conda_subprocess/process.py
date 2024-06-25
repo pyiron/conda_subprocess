@@ -153,9 +153,9 @@ def _validate_prefix_name(
 
     else:
         envs_dirs = context.envs_dirs
-        envs_dirs += [
+        envs_dirs += tuple(
             os.path.abspath(os.path.join(os.environ["CONDA_EXE"], "..", ".."))
-        ]
+        )
         try:
             return _locate_prefix_by_name(name=prefix_name, envs_dirs=envs_dirs)
         except EnvironmentNameNotFound:
