@@ -4,15 +4,15 @@ from subprocess import Popen as subprocess_Popen
 from conda.auxlib.compat import shlex_split_unicode
 from conda.auxlib.ish import dals
 from conda.base.context import (
-    context,
-    _first_writable_envs_dir,
-    ROOT_ENV_NAME,
     PREFIX_NAME_DISALLOWED_CHARS,
+    ROOT_ENV_NAME,
+    _first_writable_envs_dir,
+    context,
 )
-from conda.exceptions import EnvironmentNameNotFound, CondaValueError
 from conda.cli.common import validate_prefix
 from conda.common.compat import encode_arguments, encode_environment, isiterable
 from conda.common.path import expand
+from conda.exceptions import CondaValueError, EnvironmentNameNotFound
 from conda.utils import wrap_subprocess_call
 
 
