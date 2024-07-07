@@ -25,16 +25,13 @@ class TestCondaSubprocess(TestCase):
         self.assertEqual(check_call("python --version", prefix_name=self.env_name), 0)
 
     def test_check_output_path(self):
-        if os.name == "nt":
-            self.assertEqual(
-                check_output("python --version", prefix_path=self.env_path),
-                b"Python 3.12.1\r\n",
-            )
-        else:
-            self.assertEqual(
-                check_output("python --version", prefix_path=self.env_path),
-                b"Python 3.12.1\n",
-            )
+        expected_output = (
+            b"Python 3.12.1\r\n" if os.name == "nt" else b"Python 3.12.1\n"
+        )
+        self.assertEqual(
+            check_output("python --version", prefix_path=self.env_path),
+            expected_output,
+        )
 
     def test_check_output_name(self):
         expected_output = (
@@ -64,21 +61,21 @@ class TestCondaSubprocess(TestCase):
         )
 
     def test_popen_path(self):
+        expected_output = (
+            b"Python 3.12.1\r\n" if os.name == "nt" else b"Python 3.12.1\n"
+        )
         process = Popen("python --version", prefix_path=self.env_path, stdout=PIPE)
         output = process.communicate()
-        if os.name == "nt":
-            self.assertEqual(output[0], b"Python 3.12.1\r\n")
-        else:
-            self.assertEqual(output[0], b"Python 3.12.1\n")
+        self.assertEqual(output[0], expected_output)
         self.assertIsNone(output[1])
 
     def test_popen_name(self):
+        expected_output = (
+            b"Python 3.12.1\r\n" if os.name == "nt" else b"Python 3.12.1\n"
+        )
         process = Popen("python --version", prefix_name=self.env_name, stdout=PIPE)
         output = process.communicate()
-        if os.name == "nt":
-            self.assertEqual(output[0], b"Python 3.12.1\r\n")
-        else:
-            self.assertEqual(output[0], b"Python 3.12.1\n")
+        self.assertEqual(output[0], expected_output)
         self.assertIsNone(output[1])
 
     def test_environment_variable(self):
