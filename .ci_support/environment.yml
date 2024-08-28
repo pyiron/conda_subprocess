@@ -2,4 +2,4 @@ channels:
 - conda-forge
 dependencies:
 - python
-- conda =24.5.0
+- conda =24.7.1
