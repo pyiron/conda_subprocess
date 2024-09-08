@@ -16,10 +16,10 @@ def execute_parallel_tasks(
     future_queue,
     cores,
     interface_class,
-    hostname_localhost,
-    init_function,
-    prefix_name,
-    prefix_path,
+    hostname_localhost=False,
+    init_function=None,
+    prefix_name=None,
+    prefix_path=None,
     **kwargs,
 ) -> None:
     """
