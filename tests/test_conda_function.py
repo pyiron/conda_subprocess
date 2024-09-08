@@ -9,10 +9,7 @@ from executorlib.shared.communication import interface_bootup
 def add_function(parameter_1, parameter_2):
     import os
 
-    return (
-        parameter_1 + parameter_2,
-        os.environ["CONDA_PREFIX"]
-    )
+    return (parameter_1 + parameter_2, os.environ["CONDA_PREFIX"])
 
 
 class TestCondaFunction(TestCase):
