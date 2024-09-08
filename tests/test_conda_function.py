@@ -7,9 +7,10 @@ from executorlib.shared.communication import interface_bootup
 
 
 def add_function(parameter_1, parameter_2):
-    import sys
+    import importlib
+    system = importlib.import_module('sys')
 
-    return parameter_1 + parameter_2 + sys.version_info.major + sys.version_info.minor
+    return parameter_1 + parameter_2 + system.version_info.major + system.version_info.minor
 
 
 def execute_parallel_tasks(
@@ -17,7 +18,6 @@ def execute_parallel_tasks(
     cores,
     interface_class,
     hostname_localhost=False,
-    init_function=None,
     prefix_name=None,
     prefix_path=None,
     **kwargs,
@@ -36,7 +36,6 @@ def execute_parallel_tasks(
                                      points to the same address as localhost. Still MacOS >= 12 seems to disable
                                      this look up for security reasons. So on MacOS it is required to set this
                                      option to true
-       init_function (callable): optional function to preset arguments for functions which are submitted later
        prefix_name (str): name of the conda environment to initialize
        prefix_path (str): path of the conda environment to initialize
     """
@@ -47,10 +46,6 @@ def execute_parallel_tasks(
         prefix_path=prefix_path,
         prefix_name=prefix_name,
     )
-    if init_function is not None:
-        interface.send_dict(
-            input_dict={"init": True, "fn": init_function, "args": (), "kwargs": {}}
-        )
     while True:
         task_dict = future_queue.get()
         if "shutdown" in task_dict.keys() and task_dict["shutdown"]:
