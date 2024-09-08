@@ -2,7 +2,7 @@ from concurrent.futures import Future
 import queue
 from unittest import TestCase
 from executorlib.shared.interface import SubprocessInterface
-from executorlib.shared.executor import cloudpickle_register
+from executorlib.shared.executor import cloudpickle_register, get_command_path
 from executorlib.shared.communication import interface_bootup
 
 
@@ -41,7 +41,7 @@ def execute_parallel_tasks(
        prefix_path (str): path of the conda environment to initialize
     """
     interface = interface_bootup(
-        command_lst=["python"],
+        command_lst=["python", get_command_path(executable="interactive_serial.py")],
         connections=interface_class(cores=cores, **kwargs),
         hostname_localhost=hostname_localhost,
         prefix_path=prefix_path,
