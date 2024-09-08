@@ -28,7 +28,7 @@ class TestCondaFunction(TestCase):
         task_queue.put({"shutdown": True, "wait": True})
         execute_parallel_tasks(
             future_queue=task_queue,
-            interface_class=SubprocessInterface(),
+            interface_class=SubprocessInterface,
             max_cores=1,
             hostname_localhost=False,
             prefix_name="py312",
