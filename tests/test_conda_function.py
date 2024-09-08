@@ -1,10 +1,15 @@
 from concurrent.futures import Future
 import queue
+from socket import gethostname
+import subprocess
 import sys
-from unittest import TestCase, skipIf
+import unittest
+
 from executorlib.shared.interface import SubprocessInterface
 from executorlib.shared.executor import cloudpickle_register, get_command_path
-from executorlib.shared.communication import interface_bootup
+from executorlib.shared.communication import SocketInterface
+
+import conda_subprocess
 
 
 def add_function(parameter_1, parameter_2):
@@ -13,8 +18,8 @@ def add_function(parameter_1, parameter_2):
     return (parameter_1 + parameter_2, os.environ["CONDA_PREFIX"])
 
 
-skipIf(sys.version_info.minor != 12, "Test environment has to be Python 3.12 for consistency.")
-class TestCondaFunction(TestCase):
+@unittest.skipIf(sys.version_info.minor != 12, "Test environment has to be Python 3.12 for consistency.")
+class TestCondaFunction(unittest.TestCase):
     def test_conda_function(self):
         cloudpickle_register(ind=1)
         task_queue = queue.Queue()
@@ -26,14 +31,19 @@ class TestCondaFunction(TestCase):
             "resource_dict": {"cores": 1},
         }
         task_queue.put({"shutdown": True, "wait": True})
-        interface = interface_bootup(
-            command_lst=[
-                "python",
-                get_command_path(executable="interactive_serial.py"),
-            ],
-            connections=SubprocessInterface(cores=1),
-            hostname_localhost=False,
-            prefix_path=None,
+        interface = SocketInterface(interface=SubprocessInterface(cores=1))
+        command_lst = [
+            "python",
+            get_command_path(executable="interactive_serial.py"),
+            "--host",
+            gethostname(),
+            "--zmqport",
+            str(interface.bind_to_random_port()),
+        ]
+        interface._interface._process = conda_subprocess.Popen(
+            args=interface._interface.generate_command(command_lst=command_lst),
+            cwd=interface._interface._cwd,
+            stdin=subprocess.DEVNULL,
             prefix_name="py312",
         )
         task_future.set_result(interface.send_and_receive_dict(input_dict=task_dict))
