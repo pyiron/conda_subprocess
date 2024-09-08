@@ -8,9 +8,15 @@ from executorlib.shared.communication import interface_bootup
 
 def add_function(parameter_1, parameter_2):
     import importlib
-    system = importlib.import_module('sys')
 
-    return parameter_1 + parameter_2 + system.version_info.major + system.version_info.minor
+    system = importlib.import_module("sys")
+
+    return (
+        parameter_1
+        + parameter_2
+        + system.version_info.major
+        + system.version_info.minor
+    )
 
 
 def execute_parallel_tasks(
