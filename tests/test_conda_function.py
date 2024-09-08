@@ -10,10 +10,7 @@ from executorlib.shared.communication import interface_bootup
 def add_function(parameter_1, parameter_2):
     import os
 
-    return (
-        parameter_1 + parameter_2,
-        os.environ["CONDA_PREFIX"]
-    )
+    return (parameter_1 + parameter_2, os.environ["CONDA_PREFIX"])
 
 
 skipIf(sys.version_info.minor != 12, "Test environment has to be Python 3.12 for consistency.")
