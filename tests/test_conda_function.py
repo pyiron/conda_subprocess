@@ -7,15 +7,11 @@ from executorlib.shared.communication import interface_bootup
 
 
 def add_function(parameter_1, parameter_2):
-    import importlib
-
-    system = importlib.import_module("sys")
+    import os
 
     return (
-        parameter_1
-        + parameter_2
-        + system.version_info.major
-        + system.version_info.minor
+        parameter_1 + parameter_2,
+        os.environ["CONDA_PREFIX"]
     )
 
 
@@ -40,4 +36,6 @@ class TestCondaFunction(TestCase):
         )
         task_future.set_result(interface.send_and_receive_dict(input_dict=task_dict))
         interface.shutdown(wait=True)
-        self.assertEqual(task_future.result(), 18)
+        number, prefix = task_future.result()
+        print(prefix)
+        self.assertEqual(number, 3)
