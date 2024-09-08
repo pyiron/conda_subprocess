@@ -32,7 +32,10 @@ class TestCondaFunction(TestCase):
         }
         task_queue.put({"shutdown": True, "wait": True})
         interface = interface_bootup(
-            command_lst=["python", get_command_path(executable="interactive_serial.py")],
+            command_lst=[
+                "python",
+                get_command_path(executable="interactive_serial.py"),
+            ],
             connections=SubprocessInterface(cores=1),
             hostname_localhost=False,
             prefix_path=None,
