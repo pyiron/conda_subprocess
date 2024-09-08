@@ -5,9 +5,12 @@ import subprocess
 import sys
 import unittest
 
-from executorlib.shared.interface import SubprocessInterface
-from executorlib.shared.executor import cloudpickle_register, get_command_path
-from executorlib.shared.communication import SocketInterface
+try:
+    from executorlib.shared.interface import SubprocessInterface
+    from executorlib.shared.executor import cloudpickle_register, get_command_path
+    from executorlib.shared.communication import SocketInterface
+except ImportError:
+    pass
 
 import conda_subprocess
 
