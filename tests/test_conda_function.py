@@ -8,6 +8,7 @@ from executorlib.shared.executor import cloudpickle_register
 
 def add_function(parameter_1, parameter_2):
     import sys
+
     return parameter_1 + parameter_2 + sys.version_info.major + sys.version_info.minor
 
 
