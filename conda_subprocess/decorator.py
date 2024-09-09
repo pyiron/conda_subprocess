@@ -1,19 +1,19 @@
+import subprocess
 from concurrent.futures import Future
 from socket import gethostname
-import subprocess
 from typing import Optional
 
 try:
-    from executorlib.shared.interface import SubprocessInterface
-    from executorlib.shared.executor import get_command_path
     from executorlib.shared.communication import SocketInterface
+    from executorlib.shared.executor import get_command_path
+    from executorlib.shared.interface import SubprocessInterface
 except ImportError:
     pass
 
 from conda_subprocess.process import Popen
 
 
-def conda(prefix_name: Optional[str]=None, prefix_path: Optional[str]=None):
+def conda(prefix_name: Optional[str] = None, prefix_path: Optional[str] = None):
     def conda_function(funct):
         def function_wrapped(*args, **kwargs):
             task_future = Future()
@@ -39,9 +39,12 @@ def conda(prefix_name: Optional[str]=None, prefix_path: Optional[str]=None):
                 prefix_name=prefix_name,
                 prefix_path=prefix_path,
             )
-            task_future.set_result(interface.send_and_receive_dict(input_dict=task_dict))
+            task_future.set_result(
+                interface.send_and_receive_dict(input_dict=task_dict)
+            )
             interface.shutdown(wait=True)
             return task_future.result()
 
         return function_wrapped
+
     return conda_function
