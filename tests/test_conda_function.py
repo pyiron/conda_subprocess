@@ -5,11 +5,14 @@ try:
     from conda_subprocess.decorator import conda
     from executorlib.shared.executor import cloudpickle_register
 except ImportError:
+
     def conda(prefix_name=None, prefix_path=None):
         def wrap_function(funct):
             def function_out(*args, **kwargs):
                 return None
+
             return function_out
+
         return wrap_function
 
 
