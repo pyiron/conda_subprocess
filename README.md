@@ -7,6 +7,7 @@ Create a new conda environment - in this example a conda environment for Python 
 conda create -n py312 python=3.12 
 ```
 
+### Subprocess Interface
 Open a python shell in your base environment where `conda_subprocess` is installed and execute `python --version` in the
 `py312` environment:
 ```python
@@ -62,6 +63,20 @@ from conda_subprocess import Popen
 process = Popen(["python", "--version"], stdout=PIPE, prefix_name="py312")
 process.communicate()
 >>> (b'Python 3.12.1\n', None)
+```
+
+### Decorator 
+In analogy to the subprocess interface the `conda_subprocess` also introduces the `@conda` decorator to 
+execute python functions in a separate conda environment:
+```python
+from conda_subprocess.decorator import conda
+
+@conda(prefix_name="py312")
+def add_function(parameter_1, parameter_2):
+    return parameter_1 + parameter_2
+
+add_function(parameter_1=1, parameter_2=2)
+>>> 3
 ```
 
 ## Remarks

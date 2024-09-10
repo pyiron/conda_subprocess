@@ -31,6 +31,11 @@ dynamic = ["version"]
 [project.urls]
 Repository = "https://github.com/pyiron/conda_subprocess"
 
+[project.optional-dependencies]
+executorlib = [
+    "executorlib==0.0.2",
+]
+
 [tool.setuptools.packages.find]
 include = ["conda_subprocess*"]
 
