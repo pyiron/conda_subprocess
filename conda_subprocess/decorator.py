@@ -3,12 +3,9 @@ from concurrent.futures import Future
 from socket import gethostname
 from typing import Optional
 
-try:
-    from executorlib.shared.communication import SocketInterface
-    from executorlib.shared.executor import get_command_path
-    from executorlib.shared.interface import SubprocessInterface
-except ImportError:
-    pass
+from executorlib.shared.communication import SocketInterface
+from executorlib.shared.executor import get_command_path
+from executorlib.shared.interface import SubprocessInterface
 
 from conda_subprocess.process import Popen
 
