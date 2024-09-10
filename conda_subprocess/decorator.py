@@ -10,7 +10,7 @@ from executorlib.shared.interface import SubprocessInterface
 from conda_subprocess.process import Popen
 
 
-def conda(prefix_name: Optional[str] = None, prefix_path: Optional[str] = None):
+def conda(prefix_name: Optional[str] = None, prefix_path: Optional[str] = None, hostname_localhost: bool = False):
     def conda_function(funct):
         def function_wrapped(*args, **kwargs):
             task_future = Future()
@@ -21,14 +21,10 @@ def conda(prefix_name: Optional[str] = None, prefix_path: Optional[str] = None):
                 "resource_dict": {"cores": 1},
             }
             interface = SocketInterface(interface=SubprocessInterface(cores=1))
-            command_lst = [
-                "python",
-                get_command_path(executable="interactive_serial.py"),
-                "--host",
-                gethostname(),
-                "--zmqport",
-                str(interface.bind_to_random_port()),
-            ]
+            command_lst = ["python", get_command_path(executable="interactive_serial.py")]
+            if not hostname_localhost:
+                command_lst += ["--host", gethostname()]
+            command_lst += ["--zmqport", str(interface.bind_to_random_port())]
             interface._interface._process = Popen(
                 args=interface._interface.generate_command(command_lst=command_lst),
                 cwd=interface._interface._cwd,
