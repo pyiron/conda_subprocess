@@ -1,6 +1,6 @@
 channels:
 - conda-forge
 dependencies:
-- python
+- coverage
 - conda =24.7.1
 - executorlib =0.0.2
