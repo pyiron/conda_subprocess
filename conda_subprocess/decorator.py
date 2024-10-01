@@ -5,7 +5,7 @@ from typing import Optional
 
 from executorlib.shared.communication import SocketInterface
 from executorlib.shared.executor import get_command_path
-from executorlib.shared.interface import SubprocessInterface
+from executorlib.shared.spawner import SubprocessSpawner
 
 from conda_subprocess.process import Popen
 
@@ -24,7 +24,7 @@ def conda(
                 "kwargs": kwargs,
                 "resource_dict": {"cores": 1},
             }
-            interface = SocketInterface(interface=SubprocessInterface(cores=1))
+            interface = SocketInterface(spawner=SubprocessSpawner(cores=1))
             command_lst = [
                 "python",
                 get_command_path(executable="interactive_serial.py"),
@@ -32,9 +32,9 @@ def conda(
             if not hostname_localhost:
                 command_lst += ["--host", gethostname()]
             command_lst += ["--zmqport", str(interface.bind_to_random_port())]
-            interface._interface._process = Popen(
-                args=interface._interface.generate_command(command_lst=command_lst),
-                cwd=interface._interface._cwd,
+            interface._spawner._process = Popen(
+                args=interface._spawner.generate_command(command_lst=command_lst),
+                cwd=interface._spawner._cwd,
                 stdin=subprocess.DEVNULL,
                 prefix_name=prefix_name,
                 prefix_path=prefix_path,
