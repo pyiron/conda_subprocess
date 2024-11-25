@@ -4,7 +4,7 @@ import unittest
 try:
     from conda_subprocess.decorator import conda
     from executorlib import Executor
-    from executorlib.shared.executor import cloudpickle_register
+    from executorlib.standalone.serialize import cloudpickle_register
 except ImportError:
 
     def conda(prefix_name=None, prefix_path=None):
