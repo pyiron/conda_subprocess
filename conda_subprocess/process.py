@@ -6,9 +6,9 @@ from conda.auxlib.ish import dals
 from conda.base.context import (
     PREFIX_NAME_DISALLOWED_CHARS,
     ROOT_ENV_NAME,
+    Context,
     _first_writable_envs_dir,
     context,
-    Context,
 )
 from conda.cli.common import validate_prefix
 from conda.common.compat import encode_arguments, encode_environment, isiterable
