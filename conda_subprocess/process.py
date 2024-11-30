@@ -6,6 +6,7 @@ from conda.auxlib.ish import dals
 from conda.base.context import (
     PREFIX_NAME_DISALLOWED_CHARS,
     ROOT_ENV_NAME,
+    Context,
     _first_writable_envs_dir,
     context,
 )
@@ -127,7 +128,7 @@ def _locate_prefix_by_name(name, envs_dirs=None):
     raise EnvironmentNameNotFound(name)
 
 
-def _validate_prefix_name(prefix_name: str, ctx: context, allow_base=True) -> str:
+def _validate_prefix_name(prefix_name: str, ctx: Context, allow_base=True) -> str:
     """Run various validations to make sure prefix_name is valid"""
     if PREFIX_NAME_DISALLOWED_CHARS.intersection(prefix_name):
         raise CondaValueError(
