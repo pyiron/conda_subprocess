@@ -3,4 +3,4 @@ channels:
 dependencies:
 - coverage
 - conda =24.9.1
-- executorlib =0.0.6
+- executorlib =0.0.7
