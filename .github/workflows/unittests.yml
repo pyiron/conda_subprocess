@@ -48,7 +48,7 @@ jobs:
       run: |
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py312 python=3.12.1 conda=24.7.1 executorlib=0.0.5
+        conda create -y -n py312 python=3.12.1 conda=24.11.2 executorlib=0.0.7
         conda activate py312
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
