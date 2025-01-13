@@ -142,7 +142,7 @@ def run(
     if capture_output:
         if kwargs.get("stdout") is not None or kwargs.get("stderr") is not None:
             raise ValueError(
-                "stdout and stderr arguments may not be used " "with capture_output."
+                "stdout and stderr arguments may not be used with capture_output."
             )
         kwargs["stdout"] = PIPE
         kwargs["stderr"] = PIPE
