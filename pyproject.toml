@@ -24,7 +24,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
-    "conda==24.11.2",
+    "conda==25.1.0",
 ]
 dynamic = ["version"]
 
@@ -33,7 +33,7 @@ Repository = "https://github.com/pyiron/conda_subprocess"
 
 [project.optional-dependencies]
 executorlib = [
-    "executorlib==0.0.7",
+    "executorlib==0.0.8",
 ]
 
 [tool.setuptools.packages.find]

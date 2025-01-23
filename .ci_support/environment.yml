@@ -2,5 +2,5 @@ channels:
 - conda-forge
 dependencies:
 - coverage
-- conda =24.11.2
-- executorlib =0.0.7
+- conda =25.1.0
+- executorlib =0.0.8
