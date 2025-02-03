@@ -111,8 +111,9 @@ def _check_args(args):
 
 
 def _locate_prefix_by_name(name, envs_dirs=None):
-    """Find the location of a prefix given a conda env name.  If the location does not exist, an
-    error is raised.
+    """
+    Find the location of a prefix given a conda env name.
+    If the location does not exist, an error is raised.
     """
     assert name
     if name in (ROOT_ENV_NAME, "root"):
@@ -152,8 +153,8 @@ def _validate_prefix_name(prefix_name: str, ctx: Context, allow_base=True) -> st
 
     else:
         envs_dirs = context.envs_dirs
-        envs_dirs += tuple(
-            [os.path.abspath(os.path.join(os.environ["CONDA_EXE"], "..", "..", "envs"))]
+        envs_dirs += (
+            os.path.abspath(os.path.join(os.environ["CONDA_EXE"], "..", "..", "envs")),
         )
         try:
             return _locate_prefix_by_name(name=prefix_name, envs_dirs=envs_dirs)

@@ -4,10 +4,7 @@ from subprocess import PIPE, CalledProcessError, CompletedProcess, TimeoutExpire
 from conda_subprocess.process import Popen
 
 # use presence of msvcrt to detect Windows-like platforms (see bpo-8110)
-if os.name == "nt":
-    _mswindows = True
-else:
-    _mswindows = False
+_mswindows = os.name == "nt"
 
 
 # Copied from subprocess.py
