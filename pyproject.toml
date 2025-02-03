@@ -24,7 +24,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
-    "conda==25.1.0",
+    "conda==25.1.1",
 ]
 dynamic = ["version"]
 
