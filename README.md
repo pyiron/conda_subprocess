@@ -1,4 +1,7 @@
 # conda subprocess
+[![Pipeline](https://github.com/pyiron/conda_subprocess/actions/workflows/pipeline.yml/badge.svg)](https://github.com/pyiron/conda_subprocess/actions/workflows/pipeline.yml)
+[![Coverage Status](https://coveralls.io/repos/github/pyiron/conda_subprocess/badge.svg?branch=main)](https://coveralls.io/github/pyiron/conda_subprocess?branch=main) 
+
 Run a subprocess in a different conda environment. 
 
 ## Example 
