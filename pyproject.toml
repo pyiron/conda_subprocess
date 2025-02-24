@@ -33,7 +33,7 @@ Repository = "https://github.com/pyiron/conda_subprocess"
 
 [project.optional-dependencies]
 executorlib = [
-    "executorlib==0.4.0",
+    "executorlib==0.4.1",
 ]
 
 [tool.ruff]
