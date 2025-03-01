@@ -124,7 +124,7 @@ class TestCondaSubprocess(TestCase):
             )
 
     def test_run_timeout(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TimeoutExpired):
             run(
                 "sleep 5",
                 timeout=1,
@@ -133,13 +133,14 @@ class TestCondaSubprocess(TestCase):
             )
 
     def test_run_timeout_error(self):
-        with self.assertRaises(TimeoutExpired):
+        with self.assertRaises(ValueError):
             run(
                 "sleep 5",
                 timeout=1,
                 prefix_path=self.env_path,
                 universal_newlines=True,
-                stdout="test.out"
+                stdout="test.out",
+                capture_output=True,
             )
 
     def test_check_call_timeout(self):
