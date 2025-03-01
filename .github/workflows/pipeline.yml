@@ -129,7 +129,7 @@ jobs:
         coverage run -p --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
         ls -al
         mkdir coverage
-        mv .coverage coverage/data.txt
+        mv .coverage.* coverage/data.txt
     - name: cache
       if: ${{ matrix.python-version == '3.12' }}
       uses: actions/upload-artifact@v4
