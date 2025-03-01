@@ -88,3 +88,13 @@ class TestCondaSubprocess(TestCase):
                 universal_newlines=True,
             ).split("\n"),
         )
+
+    def test_check_output_error(self):
+        self.assertEqual(
+            "TESTVAR=test",
+            check_output(
+                "exit 1",
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            ).split("\n"),
+        )
