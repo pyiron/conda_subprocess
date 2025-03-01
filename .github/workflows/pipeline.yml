@@ -41,40 +41,6 @@ jobs:
         github_token: ${{ secrets.DEPENDABOT_WORKFLOW_TOKEN }}
         branch: ${{ github.event.pull_request.head.ref }}
 
-  coverage:
-    needs: [black]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Conda config
-      shell: bash -l {0}
-      run: echo -e "channels:\n  - conda-forge\n" > .condarc
-    - uses: conda-incubator/setup-miniconda@v3
-      with:
-        python-version: '3.12'
-        miniforge-version: latest
-        condarc-file: .condarc
-        environment-file: .ci_support/environment.yml
-    - name: Test
-      shell: bash -l {0}
-      timeout-minutes: 5
-      run: |
-        pip install versioneer[toml]==0.29
-        pip install . --no-deps --no-build-isolation
-        conda create -y -n py312 python=3.12.1 conda=25.1.1 executorlib=0.0.10
-        conda activate py312
-        pip install versioneer[toml]==0.29
-        pip install . --no-deps --no-build-isolation
-        conda deactivate
-        coverage run  --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
-    - name: Collect Coverage
-      shell: bash -l {0}
-      run: coverage xml
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v5
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-
   mypy:
     needs: [black]
     runs-on: ubuntu-latest
@@ -160,7 +126,60 @@ jobs:
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
         conda deactivate
-        python -m unittest discover tests
+        coverage run --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
+        coverage report -m
+        ls -al
+        mkdir coverage
+        mv .coverage coverage/data.txt
+    - name: cache
+      if: ${{ matrix.python-version == '3.12' }}
+      uses: actions/upload-artifact@v4
+      with:
+        path: coverage
+        name: ${{ matrix.operating-system }}
+
+  coverage:
+    needs: [unittest_matrix]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: cache_ubuntu
+      uses: actions/download-artifact@v4
+      with:
+        path: ubuntu
+        name: ubuntu-latest
+    - name: cache_windows
+      uses: actions/download-artifact@v4
+      with:
+        path: windows
+        name: windows-latest
+    - name: cache_macos
+      uses: actions/download-artifact@v4
+      with:
+        path: macos
+        name: macos-latest
+    - name: Conda config
+      shell: bash -l {0}
+      run: echo -e "channels:\n  - conda-forge\n" > .condarc
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12
+    - name: Test
+      shell: bash -l {0}
+      run: |
+        pip install coverage
+        mv ubuntu/data.txt .coverage.ubuntu
+        mv macos/data.txt .coverage.macos
+        mv windows/data.txt .coverage.windows
+        ls -al
+        coverage combine
+        coverage report -m
+        coverage xml
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
   unittest_old:
     needs: [black]
@@ -186,7 +205,7 @@ jobs:
         python -m unittest discover tests
 
   autobot:
-    needs: [unittest_old, unittest_matrix, pip_check, coverage, mypy]
+    needs: [unittest_old, unittest_matrix, pip_check, mypy]
     permissions:
       contents: write
       pull-requests: write
