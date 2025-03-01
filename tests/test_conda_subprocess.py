@@ -1,5 +1,5 @@
 import os
-from subprocess import PIPE, CalledProcessError
+from subprocess import PIPE, CalledProcessError, TimeoutExpired
 from unittest import TestCase
 
 from conda.base.context import context
@@ -107,7 +107,7 @@ class TestCondaSubprocess(TestCase):
             )
 
     def test_call_timeout(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(TimeoutExpired):
             call(
                 "sleep 5",
                 timeout=1,
