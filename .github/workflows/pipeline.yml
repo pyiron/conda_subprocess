@@ -144,17 +144,17 @@ jobs:
     - name: cache_ubuntu
       uses: actions/download-artifact@v4
       with:
-        path: .coverage.ubuntu
+        path: ubuntu
         name: ubuntu-latest
     - name: cache_windows
       uses: actions/download-artifact@v4
       with:
-        path: .coverage.windows
+        path: windows
         name: windows-latest
     - name: cache_macos
       uses: actions/download-artifact@v4
       with:
-        path: .coverage.macos
+        path: macos
         name: macos-latest
     - name: Conda config
       shell: bash -l {0}
@@ -168,6 +168,9 @@ jobs:
       shell: bash -l {0}
       run: |
         conda install -y coverage
+        mv ubuntu/data.txt .coverage_ubuntu
+        mv macos/data.txt .coverage_macos
+        mv windows/data.txt .coverage_windows
         coverage combine
         coverage xml
     - name: Upload coverage reports to Codecov
