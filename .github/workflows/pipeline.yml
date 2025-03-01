@@ -129,7 +129,7 @@ jobs:
         coverage run --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
         ls -al
         mkdir coverage
-        mv .coverage.* coverage/data.txt
+        mv .coverage coverage/data.txt
     - name: cache
       if: ${{ matrix.python-version == '3.12' }}
       uses: actions/upload-artifact@v4
@@ -167,9 +167,9 @@ jobs:
       shell: bash -l {0}
       run: |
         pip install coverage
-        mv ubuntu/data.txt .coverage_ubuntu
-        mv macos/data.txt .coverage_macos
-        mv windows/data.txt .coverage_windows
+        mv ubuntu/data.txt .coverage.ubuntu
+        mv macos/data.txt .coverage.macos
+        mv windows/data.txt .coverage.windows
         ls -al
         coverage combine
         coverage xml
