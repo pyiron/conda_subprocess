@@ -159,18 +159,18 @@ jobs:
     - name: Conda config
       shell: bash -l {0}
       run: echo -e "channels:\n  - conda-forge\n" > .condarc
-    - uses: conda-incubator/setup-miniconda@v3
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
-        miniforge-version: latest
-        condarc-file: .condarc
+        python-version: 3.12
     - name: Test
       shell: bash -l {0}
       run: |
-        conda install -y coverage
+        pip install coverage
         mv ubuntu/data.txt .coverage_ubuntu
         mv macos/data.txt .coverage_macos
         mv windows/data.txt .coverage_windows
+        ls -al
         coverage combine
         coverage xml
     - name: Upload coverage reports to Codecov
