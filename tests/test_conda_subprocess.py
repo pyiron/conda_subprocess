@@ -1,5 +1,5 @@
 import os
-from subprocess import PIPE
+from subprocess import PIPE, CalledProcessError, TimeoutExpired
 from unittest import TestCase
 
 from conda.base.context import context
@@ -87,4 +87,78 @@ class TestCondaSubprocess(TestCase):
                 env={"TESTVAR": "test"},
                 universal_newlines=True,
             ).split("\n"),
+        )
+
+    def test_check_output_error(self):
+        with self.assertRaises(CalledProcessError):
+            check_output(
+                "exit 1",
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
+
+    def test_check_output_kwargs_error(self):
+        with self.assertRaises(ValueError):
+            check_output(
+                "exit 1",
+                prefix_path=self.env_path,
+                universal_newlines=True,
+                stdout="test.out"
+            )
+
+    def test_check_call_kwargs_error(self):
+        with self.assertRaises(CalledProcessError):
+            check_call(
+                "exit 1",
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
+
+    def test_call_timeout(self):
+        with self.assertRaises(TimeoutExpired):
+            call(
+                "sleep 5",
+                timeout=1,
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
+
+    def test_run_timeout(self):
+        with self.assertRaises(TimeoutExpired):
+            run(
+                "sleep 5",
+                timeout=1,
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
+
+    def test_run_timeout_error(self):
+        with self.assertRaises(ValueError):
+            run(
+                "sleep 5",
+                timeout=1,
+                prefix_path=self.env_path,
+                universal_newlines=True,
+                stdout="test.out",
+                capture_output=True,
+            )
+
+    def test_check_call_timeout(self):
+        with self.assertRaises(CalledProcessError):
+            check_output(
+                "exit 1",
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
+
+    def test_environment_variable_run(self):
+        self.assertTrue(
+            "TESTVAR=test"
+            in run(
+                "env",
+                prefix_path=self.env_path,
+                capture_output=True,
+                env={"TESTVAR": "test"},
+                universal_newlines=True,
+            ).stdout.split("\n"),
         )
