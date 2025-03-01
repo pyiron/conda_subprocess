@@ -141,5 +141,5 @@ class TestCondaSubprocess(TestCase):
                 capture_output=True,
                 env={"TESTVAR": "test"},
                 universal_newlines=True,
-            ).split("\n"),
+            ).stdout.split("\n"),
         )
