@@ -1,5 +1,5 @@
 import os
-from subprocess import PIPE
+from subprocess import PIPE, CalledProcessError
 from unittest import TestCase
 
 from conda.base.context import context
@@ -90,11 +90,27 @@ class TestCondaSubprocess(TestCase):
         )
 
     def test_check_output_error(self):
-        self.assertEqual(
-            "TESTVAR=test",
+        with self.assertRaises(CalledProcessError):
             check_output(
                 "exit 1",
                 prefix_path=self.env_path,
                 universal_newlines=True,
-            ).split("\n"),
-        )
+            )
+
+    def test_check_output_kwargs_error(self):
+        with self.assertRaises(ValueError):
+            check_output(
+                "exit 1",
+                prefix_path=self.env_path,
+                universal_newlines=True,
+                stdout="test.out"
+            )
+
+    def test_call_timeout(self):
+        with self.assertRaises(ValueError):
+            call(
+                "sleep 5",
+                timeout=1,
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
