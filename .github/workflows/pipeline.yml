@@ -126,7 +126,7 @@ jobs:
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
         conda deactivate
-        coverage run -p --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
+        coverage run --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
         ls -al
         mkdir coverage
         mv .coverage.* coverage/data.txt
