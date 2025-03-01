@@ -41,40 +41,6 @@ jobs:
         github_token: ${{ secrets.DEPENDABOT_WORKFLOW_TOKEN }}
         branch: ${{ github.event.pull_request.head.ref }}
 
-  coverage:
-    needs: [black]
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - name: Conda config
-      shell: bash -l {0}
-      run: echo -e "channels:\n  - conda-forge\n" > .condarc
-    - uses: conda-incubator/setup-miniconda@v3
-      with:
-        python-version: '3.12'
-        miniforge-version: latest
-        condarc-file: .condarc
-        environment-file: .ci_support/environment.yml
-    - name: Test
-      shell: bash -l {0}
-      timeout-minutes: 5
-      run: |
-        pip install versioneer[toml]==0.29
-        pip install . --no-deps --no-build-isolation
-        conda create -y -n py312 python=3.12.1 conda=25.1.1 executorlib=0.0.10
-        conda activate py312
-        pip install versioneer[toml]==0.29
-        pip install . --no-deps --no-build-isolation
-        conda deactivate
-        coverage run  --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
-    - name: Collect Coverage
-      shell: bash -l {0}
-      run: coverage xml
-    - name: Upload coverage reports to Codecov
-      uses: codecov/codecov-action@v5
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-
   mypy:
     needs: [black]
     runs-on: ubuntu-latest
@@ -160,7 +126,51 @@ jobs:
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
         conda deactivate
-        python -m unittest discover tests
+        coverage run --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
+    - name: cache
+      if: ${{ matrix.python-version }} == 3.12
+      uses: actions/cache/save@v4
+      with:
+        path: .coverage.*
+        key: coverage_${{ matrix.operating-system }}
+
+  coverage:
+    needs: [unittest_matrix]
+    runs-on: ubuntu-latest
+    steps:
+    - name: cache_ubuntu
+      uses: actions/cache/restore@v4
+      with:
+        path: .coverage.ubuntu
+        key: coverage_ubuntu-latest
+    - name: cache_windows
+      uses: actions/cache/restore@v4
+      with:
+        path: .coverage.windows
+        key: coverage_windows-latest
+    - name: cache_macos
+      uses: actions/cache/restore@v4
+      with:
+        path: .coverage.macos
+        key: coverage_macos-latest
+    - name: Conda config
+      shell: bash -l {0}
+      run: echo -e "channels:\n  - conda-forge\n" > .condarc
+    - uses: conda-incubator/setup-miniconda@v3
+      with:
+        python-version: '3.12'
+        miniforge-version: latest
+        condarc-file: .condarc
+    - name: Test
+      shell: bash -l {0}
+      run: |
+        conda install -y coverage
+        coverage combine
+        coverage xml
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
   unittest_old:
     needs: [black]
