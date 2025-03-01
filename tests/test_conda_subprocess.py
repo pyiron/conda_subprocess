@@ -106,6 +106,14 @@ class TestCondaSubprocess(TestCase):
                 stdout="test.out"
             )
 
+    def test_check_call_kwargs_error(self):
+        with self.assertRaises(CalledProcessError):
+            check_call(
+                "exit 1",
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
+
     def test_call_timeout(self):
         with self.assertRaises(TimeoutExpired):
             call(
@@ -116,12 +124,22 @@ class TestCondaSubprocess(TestCase):
             )
 
     def test_run_timeout(self):
+        with self.assertRaises(ValueError):
+            run(
+                "sleep 5",
+                timeout=1,
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
+
+    def test_run_timeout_error(self):
         with self.assertRaises(TimeoutExpired):
             run(
                 "sleep 5",
                 timeout=1,
                 prefix_path=self.env_path,
                 universal_newlines=True,
+                stdout="test.out"
             )
 
     def test_check_call_timeout(self):
