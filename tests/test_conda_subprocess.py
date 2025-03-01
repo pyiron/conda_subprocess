@@ -114,3 +114,32 @@ class TestCondaSubprocess(TestCase):
                 prefix_path=self.env_path,
                 universal_newlines=True,
             )
+
+    def test_run_timeout(self):
+        with self.assertRaises(TimeoutExpired):
+            run(
+                "sleep 5",
+                timeout=1,
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
+
+    def test_check_call_timeout(self):
+        with self.assertRaises(CalledProcessError):
+            check_output(
+                "exit 1",
+                prefix_path=self.env_path,
+                universal_newlines=True,
+            )
+
+    def test_environment_variable_run(self):
+        self.assertTrue(
+            "TESTVAR=test"
+            in run(
+                "env",
+                prefix_path=self.env_path,
+                capture_output=True,
+                env={"TESTVAR": "test"},
+                universal_newlines=True,
+            ).split("\n"),
+        )
