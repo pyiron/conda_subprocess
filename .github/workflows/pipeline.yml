@@ -141,6 +141,7 @@ jobs:
     needs: [unittest_matrix]
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/checkout@v4
     - name: cache_ubuntu
       uses: actions/download-artifact@v4
       with:
@@ -202,7 +203,7 @@ jobs:
         python -m unittest discover tests
 
   autobot:
-    needs: [unittest_old, unittest_matrix, pip_check, coverage, mypy]
+    needs: [unittest_old, unittest_matrix, pip_check, mypy]
     permissions:
       contents: write
       pull-requests: write
