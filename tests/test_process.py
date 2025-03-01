@@ -17,7 +17,7 @@ class TestProcess(TestCase):
         with self.assertRaises(CondaValueError):
             _validate_prefix_name(prefix_name="root", ctx=context, allow_base=False)
         with self.assertRaises(CondaValueError):
-            _validate_prefix_name(prefix_name="-", ctx=context, allow_base=True)
+            _validate_prefix_name(prefix_name="/", ctx=context, allow_base=True)
         with self.assertRaises(EnvironmentNameNotFound):
             _validate_prefix_name(prefix_name="error", ctx=context, allow_base=True)
 
