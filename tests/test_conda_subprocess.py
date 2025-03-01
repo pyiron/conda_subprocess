@@ -29,7 +29,7 @@ class TestCondaSubprocess(TestCase):
             b"Python 3.12.1\r\n" if os.name == "nt" else b"Python 3.12.1\n"
         )
         self.assertEqual(
-            check_output("python --version", prefix_path=self.env_path),
+            check_output("python --version", prefix_path=self.env_path, input=None),
             expected_output,
         )
 
@@ -45,7 +45,7 @@ class TestCondaSubprocess(TestCase):
     def test_check_output_universal_newlines(self):
         self.assertEqual(
             check_output(
-                "python --version", prefix_path=self.env_path, universal_newlines=True
+                "python --version", prefix_path=self.env_path, universal_newlines=True, input=None
             ),
             "Python 3.12.1\n",
         )
