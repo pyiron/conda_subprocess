@@ -127,7 +127,7 @@ jobs:
         pip install . --no-deps --no-build-isolation
         conda deactivate
         coverage run --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
-        coverage report
+        coverage report -m
         ls -al
         mkdir coverage
         mv .coverage coverage/data.txt
@@ -174,7 +174,7 @@ jobs:
         mv windows/data.txt .coverage.windows
         ls -al
         coverage combine
-        coverage report
+        coverage report -m
         coverage xml
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5
