@@ -132,7 +132,7 @@ jobs:
       if: ${{ matrix.python-version == '3.12' }}
       uses: actions/cache/save@v4
       with:
-        path: .coverage.*
+        path: .coverage
         key: coverage_${{ matrix.operating-system }}
 
   coverage:
