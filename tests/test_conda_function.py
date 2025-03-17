@@ -17,27 +17,27 @@ except ImportError:
         return wrap_function
 
 
-@conda(prefix_name="py312")
+@conda(prefix_name="py313")
 def add_function(parameter_1, parameter_2):
     import os
 
     return (parameter_1 + parameter_2, os.environ["CONDA_PREFIX"])
 
 
-@conda(prefix_name="py312")
+@conda(prefix_name="py313")
 def error_funct(parameter_1):
     raise ValueError
 
 
 @unittest.skipIf(
-    sys.version_info.minor != 12,
-    "Test environment has to be Python 3.12 for consistency.",
+    sys.version_info.minor != 13,
+    "Test environment has to be Python 3.13 for consistency.",
 )
 class TestCondaFunction(unittest.TestCase):
     def test_conda_function(self):
         cloudpickle_register(ind=1)
         number, prefix = add_function(parameter_1=1, parameter_2=2)
-        self.assertEqual(prefix[-5:], "py312")
+        self.assertEqual(prefix[-5:], "py313")
         self.assertEqual(number, 3)
 
     def test_conda_function_error(self):
@@ -50,5 +50,5 @@ class TestCondaFunction(unittest.TestCase):
         with SingleNodeExecutor(max_cores=1, hostname_localhost=True) as exe:
             future = exe.submit(add_function, 1, 2)
             number, prefix = future.result()
-        self.assertEqual(prefix[-5:], "py312")
+        self.assertEqual(prefix[-5:], "py313")
         self.assertEqual(number, 3)
