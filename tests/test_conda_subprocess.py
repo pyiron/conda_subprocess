@@ -42,6 +42,24 @@ class TestCondaSubprocess(TestCase):
             expected_output,
         )
 
+    def test_nested_path(self):
+        expected_output = (
+            b"Python 3.12.1\r\n" if os.name == "nt" else b"Python 3.12.1\n"
+        )
+        self.assertEqual(
+            check_output("echo $(python --version)", prefix_path=self.env_path),
+            expected_output,
+        )
+
+    def test_nested_name(self):
+        expected_output = (
+            b"Python 3.12.1\r\n" if os.name == "nt" else b"Python 3.12.1\n"
+        )
+        self.assertEqual(
+            check_output("echo $(python --version)", prefix_name=self.env_name),
+            expected_output,
+        )
+
     def test_check_output_universal_newlines(self):
         self.assertEqual(
             check_output(
