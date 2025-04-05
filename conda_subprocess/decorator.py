@@ -35,7 +35,7 @@ def conda(
                     )
                 )
                 command_lst = [
-                    os.path.join(prefix_python, "Scripts", "python.exe"),
+                    os.path.join(prefix_python, "python.exe"),
                     get_command_path(executable="interactive_serial.py"),
                 ]
             else:
