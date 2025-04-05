@@ -37,6 +37,7 @@ class TestCondaFunction(unittest.TestCase):
     def test_conda_function(self):
         cloudpickle_register(ind=1)
         number, prefix = add_function(parameter_1=1, parameter_2=2)
+        print(prefix)
         self.assertEqual(prefix[-5:], "py313")
         self.assertEqual(number, 3)
 
@@ -50,5 +51,6 @@ class TestCondaFunction(unittest.TestCase):
         with SingleNodeExecutor(max_cores=1, hostname_localhost=True) as exe:
             future = exe.submit(add_function, 1, 2)
             number, prefix = future.result()
+        print(prefix)
         self.assertEqual(prefix[-5:], "py313")
         self.assertEqual(number, 3)
