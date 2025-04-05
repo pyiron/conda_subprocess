@@ -1,3 +1,4 @@
+import os
 import subprocess
 from concurrent.futures import Future
 from socket import gethostname
@@ -32,9 +33,8 @@ def conda(
                     prefix_path=prefix_path,
                 )
             )
-            print(prefix_python)
             command_lst = [
-                "python",
+                os.path.join(prefix_python, "bin", "python"),
                 get_command_path(executable="interactive_serial.py"),
             ]
             if not hostname_localhost:
