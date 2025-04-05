@@ -1,3 +1,4 @@
+import os
 import sys
 import unittest
 
@@ -21,7 +22,14 @@ except ImportError:
 def add_function(parameter_1, parameter_2):
     import os
 
-    return (parameter_1 + parameter_2, os.environ["CONDA_PREFIX"])
+    return parameter_1 + parameter_2, os.environ["CONDA_PREFIX"]
+
+
+@conda(prefix_name="py313")
+def get_exe(parameter_1, parameter_2):
+    import sys
+
+    return parameter_1 + parameter_2, sys.executable
 
 
 @conda(prefix_name="py313")
@@ -37,7 +45,13 @@ class TestCondaFunction(unittest.TestCase):
     def test_conda_function(self):
         cloudpickle_register(ind=1)
         number, prefix = add_function(parameter_1=1, parameter_2=2)
-        self.assertEqual(prefix[-5:], "py313")
+        self.assertTrue("py313" in prefix.split(os.sep))
+        self.assertEqual(number, 3)
+
+    def test_conda_exe_function(self):
+        cloudpickle_register(ind=1)
+        number, prefix = get_exe(parameter_1=1, parameter_2=2)
+        self.assertTrue("py313" in prefix.split(os.sep))
         self.assertEqual(number, 3)
 
     def test_conda_function_error(self):
@@ -50,5 +64,13 @@ class TestCondaFunction(unittest.TestCase):
         with SingleNodeExecutor(max_cores=1, hostname_localhost=True) as exe:
             future = exe.submit(add_function, 1, 2)
             number, prefix = future.result()
-        self.assertEqual(prefix[-5:], "py313")
+        self.assertTrue("py313" in prefix.split(os.sep))
+        self.assertEqual(number, 3)
+
+    def test_conda_exe_with_executorlib(self):
+        cloudpickle_register(ind=1)
+        with SingleNodeExecutor(max_cores=1, hostname_localhost=True) as exe:
+            future = exe.submit(get_exe, 1, 2)
+            number, prefix = future.result()
+        self.assertTrue("py313" in prefix.split(os.sep))
         self.assertEqual(number, 3)
