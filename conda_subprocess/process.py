@@ -58,13 +58,13 @@ def Popen(
         use_system_tmp_path=True,
     )
 
-    print(script, command)
+    with open(script, "r") as f:
+        print(f.readlines())
     if not isiterable(command):
         command = shlex_split_unicode(command)
 
     # update environment
     environment_dict = os.environ.copy()
-    print(environment_dict, env)
     if env is not None:
         environment_dict.update(env)
 
