@@ -11,7 +11,7 @@ from conda.base.context import (
     context,
 )
 from conda.cli.common import validate_prefix
-from conda.common.compat import encode_arguments, encode_environment, isiterable
+from conda.common.compat import encode_environment, isiterable
 from conda.common.path import expand
 from conda.exceptions import CondaValueError, EnvironmentNameNotFound
 from conda.utils import wrap_subprocess_call
@@ -58,17 +58,19 @@ def Popen(
         use_system_tmp_path=True,
     )
 
+    with open(script) as f:
+        print(f.readlines())
     if not isiterable(command):
         command = shlex_split_unicode(command)
 
     # update environment
     environment_dict = os.environ.copy()
     if env is not None:
-        environment_dict.update(env)
+        environment_dict.update({k: v for k, v in env.items() if k != "CONDA_PREFIX"})
 
     # spawn subprocess
     return subprocess_Popen(
-        args=encode_arguments(command),
+        args=command,
         bufsize=bufsize,
         stdin=stdin,
         stdout=stdout,
