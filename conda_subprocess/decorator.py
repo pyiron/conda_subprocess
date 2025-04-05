@@ -8,7 +8,7 @@ from executorlib.standalone.command import get_command_path
 from executorlib.standalone.interactive.communication import SocketInterface
 from executorlib.standalone.interactive.spawner import SubprocessSpawner
 
-from conda_subprocess.process import Popen, _check_prefix(
+from conda_subprocess.process import Popen, _check_prefix
 
 
 def conda(
