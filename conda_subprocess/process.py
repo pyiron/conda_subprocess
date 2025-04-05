@@ -58,6 +58,7 @@ def Popen(
         use_system_tmp_path=True,
     )
 
+    print(script, command)
     if not isiterable(command):
         command = shlex_split_unicode(command)
 
