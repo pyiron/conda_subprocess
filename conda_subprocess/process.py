@@ -64,6 +64,7 @@ def Popen(
 
     # update environment
     environment_dict = os.environ.copy()
+    print(environment_dict, env)
     if env is not None:
         environment_dict.update(env)
 
