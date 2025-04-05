@@ -11,7 +11,7 @@ from conda.base.context import (
     context,
 )
 from conda.cli.common import validate_prefix
-from conda.common.compat import encode_arguments, encode_environment, isiterable
+from conda.common.compat import encode_environment, isiterable
 from conda.common.path import expand
 from conda.exceptions import CondaValueError, EnvironmentNameNotFound
 from conda.utils import wrap_subprocess_call
@@ -68,7 +68,7 @@ def Popen(
 
     # spawn subprocess
     return subprocess_Popen(
-        args=encode_arguments(command),
+        args=command,
         bufsize=bufsize,
         stdin=stdin,
         stdout=stdout,
