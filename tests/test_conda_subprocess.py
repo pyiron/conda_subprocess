@@ -1,4 +1,5 @@
 import os
+import unittest
 from subprocess import PIPE, CalledProcessError, TimeoutExpired
 from unittest import TestCase
 
@@ -39,6 +40,13 @@ class TestCondaSubprocess(TestCase):
         )
         self.assertEqual(
             check_output("python --version", prefix_name=self.env_name),
+            expected_output,
+        )
+
+    def test_check_output_env_name(self):
+        expected_output = "py313"
+        self.assertEqual(
+            check_output("which python", prefix_name=self.env_name, universal_newlines=True).split("/")[-3],
             expected_output,
         )
 
