@@ -40,7 +40,8 @@ def conda(
                 ]
             else:
                 command_lst = [
-                    "python", get_command_path(executable="interactive_serial.py"),
+                    "python",
+                    get_command_path(executable="interactive_serial.py"),
                 ]
             if not hostname_localhost:
                 command_lst += ["--host", gethostname()]
