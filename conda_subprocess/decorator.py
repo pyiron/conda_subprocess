@@ -27,16 +27,21 @@ def conda(
                 "resource_dict": {"cores": 1},
             }
             interface = SocketInterface(spawner=SubprocessSpawner(cores=1))
-            prefix_python = validate_prefix(
-                prefix=_check_prefix(
-                    prefix_name=prefix_name,
-                    prefix_path=prefix_path,
+            if os.name == "nt":
+                prefix_python = validate_prefix(
+                    prefix=_check_prefix(
+                        prefix_name=prefix_name,
+                        prefix_path=prefix_path,
+                    )
                 )
-            )
-            command_lst = [
-                os.path.join(prefix_python, "bin", "python"),
-                get_command_path(executable="interactive_serial.py"),
-            ]
+                command_lst = [
+                    os.path.join(prefix_python, "Scripts", "python.exe"),
+                    get_command_path(executable="interactive_serial.py"),
+                ]
+            else:
+                command_lst = [
+                    "python", get_command_path(executable="interactive_serial.py"),
+                ]
             if not hostname_localhost:
                 command_lst += ["--host", gethostname()]
             command_lst += ["--zmqport", str(interface.bind_to_random_port())]
