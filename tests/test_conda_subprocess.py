@@ -1,5 +1,4 @@
 import os
-import unittest
 from subprocess import PIPE, CalledProcessError, TimeoutExpired
 from unittest import TestCase
 
