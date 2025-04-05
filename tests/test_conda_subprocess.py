@@ -46,7 +46,7 @@ class TestCondaSubprocess(TestCase):
     def test_check_output_env_name(self):
         expected_output = "py313"
         self.assertEqual(
-            check_output("which python", prefix_name=self.env_name, universal_newlines=True).split("/")[-2],
+            check_output("which python", prefix_name=self.env_name, universal_newlines=True).split("/")[-3],
             expected_output,
         )
 
