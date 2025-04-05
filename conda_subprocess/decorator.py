@@ -3,11 +3,12 @@ from concurrent.futures import Future
 from socket import gethostname
 from typing import Optional
 
+from conda.cli.common import validate_prefix
 from executorlib.standalone.command import get_command_path
 from executorlib.standalone.interactive.communication import SocketInterface
 from executorlib.standalone.interactive.spawner import SubprocessSpawner
 
-from conda_subprocess.process import Popen
+from conda_subprocess.process import Popen, _check_prefix(
 
 
 def conda(
@@ -25,6 +26,13 @@ def conda(
                 "resource_dict": {"cores": 1},
             }
             interface = SocketInterface(spawner=SubprocessSpawner(cores=1))
+            prefix_python = validate_prefix(
+                prefix=_check_prefix(
+                    prefix_name=prefix_name,
+                    prefix_path=prefix_path,
+                )
+            )
+            print(prefix_python)
             command_lst = [
                 "python",
                 get_command_path(executable="interactive_serial.py"),
