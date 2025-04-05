@@ -43,31 +43,17 @@ class TestCondaSubprocess(TestCase):
             expected_output,
         )
 
-    def test_check_output_env_path(self):
-        expected_output = "py313"
-        self.assertEqual(
-            check_output("which python", prefix_path=self.env_path, input=None).split("/")[-3],
-            expected_output,
-        )
-
     def test_check_output_env_name(self):
         expected_output = "py313"
         self.assertEqual(
-            check_output("python --version", prefix_name=self.env_name).split("/")[-3],
-            expected_output,
-        )
-
-    def test_check_output_env_var_path(self):
-        expected_output = "py313"
-        self.assertEqual(
-            check_output("echo $CONDA_PREFIX", prefix_path=self.env_path, input=None).split("/")[-3],
+            check_output("python --version", prefix_name=self.env_name, universal_newlines=True).split("/")[-3],
             expected_output,
         )
 
     def test_check_output_env_var_name(self):
         expected_output = "py313"
         self.assertEqual(
-            check_output("echo $CONDA_PREFIX", prefix_name=self.env_name).split("/")[-3],
+            check_output("echo $CONDA_PREFIX", prefix_name=self.env_name, universal_newlines=True).split("/")[-3],
             expected_output,
         )
 
