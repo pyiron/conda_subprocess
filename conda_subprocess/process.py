@@ -66,7 +66,7 @@ def Popen(
     # update environment
     environment_dict = os.environ.copy()
     if env is not None:
-        environment_dict.update({k: v for k, v in env.items() if k != "CONDA_PREFIX"})
+        environment_dict.update(env)
 
     # spawn subprocess
     return subprocess_Popen(
