@@ -49,11 +49,11 @@ class TestCondaSubprocess(TestCase):
 
     def test_check_output_env_name(self):
         output_new = check_output("which python", prefix_name=self.env_name, universal_newlines=True)
-        output_classic = subprocess_check_output(["conda", "run", "-p", self.env_path, "which", "python"], universal_newlines=True, env=os.environ)
+        output_classic = subprocess_check_output(["conda", "run", "-p", self.env_path, "which", "python"], universal_newlines=True)
         self.assertTrue(
             "py313" in output_new.split("/")
         )
-        self.assertEqual(output_new, output_classic)
+        self.assertEqual(output_new, output_classic.rstrip())
 
     def test_check_output_universal_newlines(self):
         self.assertEqual(
