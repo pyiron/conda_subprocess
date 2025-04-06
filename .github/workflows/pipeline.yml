@@ -61,7 +61,7 @@ jobs:
       run: |
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py313 python=3.13.2 conda=25.1.1 executorlib=1.0.1
+        conda create -y -n py313 python=3.13.2 conda=25.3.1 executorlib=1.0.1
         conda activate py313
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
@@ -158,7 +158,7 @@ jobs:
       run: |
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py313 python=3.13.2 conda=25.1.1 executorlib=1.0.1
+        conda create -y -n py313 python=3.13.2 conda=25.3.1 executorlib=1.0.1
         conda activate py313
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
