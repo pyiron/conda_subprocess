@@ -49,7 +49,7 @@ class TestCondaSubprocess(TestCase):
 
     def test_check_output_env_name(self):
         output_new = check_output("which python", prefix_name=self.env_name, universal_newlines=True)
-        output_classic = subprocess_check_output("conda run -n py313 which python", universal_newlines=True)
+        output_classic = subprocess_check_output("conda run -n py313 which python", universal_newlines=True, shell=True)
         self.assertTrue(
             "py313" in output_new.split("/")
         )
