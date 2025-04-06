@@ -1,5 +1,10 @@
 import os
-from subprocess import PIPE, CalledProcessError, TimeoutExpired
+from subprocess import (
+    PIPE,
+    CalledProcessError,
+    TimeoutExpired,
+    check_output as subprocess_check_output,
+)
 from unittest import TestCase
 
 from conda.base.context import context
@@ -43,9 +48,12 @@ class TestCondaSubprocess(TestCase):
         )
 
     def test_check_output_env_name(self):
+        output_new = check_output("which python", prefix_name=self.env_name, universal_newlines=True)
+        output_classic = subprocess_check_output(["conda", "run", "-p", self.env_path, "which", "python"], universal_newlines=True)
         self.assertTrue(
-            "py313" in check_output("which python", prefix_name=self.env_name, universal_newlines=True).split("/")
+            "py313" in output_new.split("/")
         )
+        self.assertEqual(output_new.rstrip(), output_classic.rstrip())
 
     def test_check_output_universal_newlines(self):
         self.assertEqual(
