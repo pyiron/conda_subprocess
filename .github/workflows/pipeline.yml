@@ -55,7 +55,7 @@ jobs:
         miniforge-version: latest
         condarc-file: .condarc
         environment-file: .ci_support/environment.yml
-    - name: Test
+    - name: Build Test Environment
       shell: bash -l {0}
       timeout-minutes: 5
       run: |
@@ -66,6 +66,10 @@ jobs:
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
         conda deactivate
+    - name: Test
+      shell: bash -l {0}
+      timeout-minutes: 5
+      run: |
         coverage run  --omit="conda_subprocess/_version.py,tests/*" -m unittest discover tests
     - name: Collect Coverage
       shell: bash -l {0}
@@ -152,7 +156,7 @@ jobs:
         miniforge-version: latest
         condarc-file: .condarc
         environment-file: .ci_support/environment.yml
-    - name: Test
+    - name: Build Test Environment
       shell: bash -l {0}
       timeout-minutes: 5
       run: |
@@ -163,6 +167,10 @@ jobs:
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
         conda deactivate
+    - name: Test
+      shell: bash -l {0}
+      timeout-minutes: 5
+      run: |
         python -m unittest discover tests
 
   unittest_old:
