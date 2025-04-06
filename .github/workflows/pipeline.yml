@@ -163,7 +163,6 @@ jobs:
         pip install versioneer[toml]==0.29
         pip install . --no-deps --no-build-isolation
         conda deactivate
-        conda run -n py313 which python
         python -m unittest discover tests
 
   unittest_old:
