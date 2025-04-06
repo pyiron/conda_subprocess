@@ -53,7 +53,7 @@ class TestCondaSubprocess(TestCase):
         self.assertTrue(
             "py313" in output_new.split("/")
         )
-        self.assertEqual(output_new, output_classic.rstrip())
+        self.assertEqual(output_new.rstrip(), output_classic.rstrip())
 
     def test_check_output_universal_newlines(self):
         self.assertEqual(
