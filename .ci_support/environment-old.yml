@@ -3,3 +3,4 @@ channels:
 dependencies:
 - python
 - conda =22.9.0
+- setuptools =75.1.0

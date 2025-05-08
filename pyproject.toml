@@ -1,5 +1,9 @@
 [build-system]
-requires = ["conda", "versioneer[toml]==0.29"]
+requires = [
+    "conda==25.3.1",
+    "setuptools==80.1.0",
+    "versioneer[toml]==0.29",
+]
 build-backend = "setuptools.build_meta"
 
 [project]
