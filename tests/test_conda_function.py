@@ -38,8 +38,8 @@ def error_funct(parameter_1):
 
 
 @unittest.skipIf(
-    sys.version_info.minor != 13,
-    "Test environment has to be Python 3.13 for consistency.",
+    sys.version_info.minor != 13 or os.name == "nt",
+    "Test environment has to be Python 3.13 for consistency and Windows is currently not supported.",
 )
 class TestCondaFunction(unittest.TestCase):
     def test_conda_function(self):
