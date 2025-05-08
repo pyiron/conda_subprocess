@@ -3,7 +3,7 @@ from concurrent.futures import Future
 from socket import gethostname
 from typing import Optional
 
-from executorlib.standalone import SocketInterface, SubprocessSpawner, get_command_path
+from executorlib.api import SocketInterface, SubprocessSpawner, get_command_path
 
 from conda_subprocess.process import Popen
 
