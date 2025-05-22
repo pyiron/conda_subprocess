@@ -3,7 +3,7 @@ from conda_subprocess.process import Popen
 
 from . import _version
 
-__version__ = _version.get_versions()["version"]
+__version__ = _version.__version__
 __all__ = [
     "Popen",
     "call",

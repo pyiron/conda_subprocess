@@ -34,7 +34,7 @@ jobs:
     - name: Build
       shell: bash -l {0}
       run: |
-        pip install versioneer[toml]==0.29
-        python setup.py sdist bdist_wheel
+        git update-index --assume-unchanged pyproject.toml conda_subprocess/_version.py
+        hatchling build -t sdist -t wheel
     - name: Publish distribution 📦 to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
