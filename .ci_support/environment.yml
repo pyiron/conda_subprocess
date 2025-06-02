@@ -5,4 +5,4 @@ dependencies:
 - conda =25.3.1
 - executorlib =1.2.1
 - hatchling =1.27.0
-- hatch-vcs =0.4.0
+- hatch-vcs =0.5.0
