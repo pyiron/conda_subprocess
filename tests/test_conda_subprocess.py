@@ -29,10 +29,6 @@ class TestCondaSubprocess(unittest.TestCase):
     def test_check_call_name(self):
         self.assertEqual(check_call("python --version", prefix_name=self.env_name), 0)
 
-    @unittest.skipIf(
-        os.name == "nt",
-        "Windows is currently not supported.",
-    )
     def test_check_output_path(self):
         expected_output = (
             b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
@@ -42,10 +38,6 @@ class TestCondaSubprocess(unittest.TestCase):
             expected_output,
         )
 
-    @unittest.skipIf(
-        os.name == "nt",
-        "Windows is currently not supported.",
-    )
     def test_check_output_name(self):
         expected_output = (
             b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
@@ -55,10 +47,6 @@ class TestCondaSubprocess(unittest.TestCase):
             expected_output,
         )
 
-    @unittest.skipIf(
-        os.name == "nt",
-        "Windows is currently not supported.",
-    )
     def test_check_output_env_name(self):
         output_new = check_output("which python", prefix_name=self.env_name, universal_newlines=True)
         output_classic = subprocess_check_output(["conda", "run", "-p", self.env_path, "which", "python"], universal_newlines=True)
@@ -67,10 +55,6 @@ class TestCondaSubprocess(unittest.TestCase):
         )
         self.assertEqual(output_new.rstrip(), output_classic.rstrip())
 
-    @unittest.skipIf(
-        os.name == "nt",
-        "Windows is currently not supported.",
-    )
     def test_check_output_universal_newlines(self):
         self.assertEqual(
             check_output(
@@ -89,10 +73,6 @@ class TestCondaSubprocess(unittest.TestCase):
             run("python --version", prefix_name=self.env_name).returncode, 0
         )
 
-    @unittest.skipIf(
-        os.name == "nt",
-        "Windows is currently not supported.",
-    )
     def test_popen_path(self):
         expected_output = (
             b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
@@ -102,10 +82,6 @@ class TestCondaSubprocess(unittest.TestCase):
         self.assertEqual(output[0], expected_output)
         self.assertIsNone(output[1])
 
-    @unittest.skipIf(
-        os.name == "nt",
-        "Windows is currently not supported.",
-    )
     def test_popen_name(self):
         expected_output = (
             b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
