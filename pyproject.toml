@@ -93,3 +93,7 @@ packages = [
 [tool.hatch.version]
 source = "vcs"
 path = "conda_subprocess/_version.py"
+
+[tool.coverage.run]
+omit = ["conda_subprocess/_version.py", "tests/*"]
+command_line = "-m unittest discover tests"
