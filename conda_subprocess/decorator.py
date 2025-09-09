@@ -1,4 +1,3 @@
-import os
 import subprocess
 from concurrent.futures import Future
 from socket import gethostname
@@ -43,8 +42,6 @@ class CondaSpawner(SubprocessSpawner):
         Returns:
             bool: Whether the interface was successfully started.
         """
-        if self._cwd is not None:
-            os.makedirs(self._cwd, exist_ok=True)
         self._process = Popen(
             args=self.generate_command(command_lst=command_lst),
             cwd=self._cwd,
