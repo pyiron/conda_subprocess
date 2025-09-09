@@ -1,7 +1,8 @@
+import os
 import subprocess
 from concurrent.futures import Future
 from socket import gethostname
-from typing import Optional
+from typing import Callable, Optional
 
 from executorlib.api import SocketInterface, SubprocessSpawner, get_command_path
 
