@@ -60,7 +60,7 @@ jobs:
       timeout-minutes: 5
       run: |
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py313 python=3.13.2 conda=25.3.1 executorlib=1.6.1 hatchling=1.27.0 hatch-vcs=0.5.0
+        conda create -y -n py313 python=3.13.2 conda=25.9.0 executorlib=1.7.1 hatchling=1.27.0 hatch-vcs=0.5.0
         conda activate py313
         pip install . --no-deps --no-build-isolation
         conda deactivate
@@ -156,7 +156,7 @@ jobs:
       timeout-minutes: 5
       run: |
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py313 python=3.13.2 conda=25.3.1 executorlib=1.6.1 hatchling=1.27.0 hatch-vcs=0.5.0
+        conda create -y -n py313 python=3.13.2 conda=25.9.0 executorlib=1.7.1 hatchling=1.27.0 hatch-vcs=0.5.0
         conda activate py313
         pip install . --no-deps --no-build-isolation
         conda deactivate
