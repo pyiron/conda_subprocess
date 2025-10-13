@@ -90,3 +90,51 @@ def conda(
         return function_wrapped
 
     return conda_function
+
+
+class CondaContext:
+    def __init__(
+        self,
+        prefix_name: Optional[str] = None,
+        prefix_path: Optional[str] = None,
+        hostname_localhost: bool = False,
+    ):
+        self._prefix_name = prefix_name
+        self._prefix_path = prefix_path
+        self._hostname_localhost = hostname_localhost
+        self._interface = None
+
+    def __enter__(self):
+        self._interface = SocketInterface(
+            spawner=CondaSpawner(
+                cores=1,
+                prefix_name=self._prefix_name,
+                prefix_path=self._prefix_path,
+            )
+        )
+        command_lst = [
+            "python",
+            get_command_path(executable="interactive_serial.py"),
+        ]
+        if not self._hostname_localhost:
+            command_lst += ["--host", gethostname()]
+        command_lst += ["--zmqport", str(self._interface.bind_to_random_port())]
+        self._interface.bootup(command_lst=command_lst)
+        return self
+
+    def __call__(self, fn, /, *args, **kwargs):
+        task_future = Future()
+        task_dict = {
+            "fn": fn,
+            "args": args,
+            "kwargs": kwargs,
+            "resource_dict": {"cores": 1},
+        }
+        task_future.set_result(
+            self._interface.send_and_receive_dict(input_dict=task_dict)
+        )
+        return task_future.result()
+
+    def __exit__(self, type, value, traceback):
+        if self._interface is not None:
+            self._interface.shutdown(wait=True)
