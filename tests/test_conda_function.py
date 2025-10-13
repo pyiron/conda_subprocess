@@ -3,7 +3,7 @@ import sys
 import unittest
 
 try:
-    from conda_subprocess.decorator import conda
+    from conda_subprocess.decorator import conda, CondaContext
     from executorlib import SingleNodeExecutor
     from executorlib.standalone.serialize import cloudpickle_register
 except ImportError:
@@ -72,5 +72,19 @@ class TestCondaFunction(unittest.TestCase):
         with SingleNodeExecutor(max_cores=1, hostname_localhost=True) as exe:
             future = exe.submit(get_exe, 1, 2)
             number, prefix = future.result()
+        self.assertTrue("py313" in prefix.split(os.sep))
+        self.assertEqual(number, 3)
+
+    def test_conda_function_with_context(self):
+        cloudpickle_register(ind=1)
+        with CondaContext(prefix_name="py313") as conda:
+            number, prefix = conda(add_function, 1, 2)
+        self.assertTrue("py313" in prefix.split(os.sep))
+        self.assertEqual(number, 3)
+
+    def test_conda_exe_with_context(self):
+        cloudpickle_register(ind=1)
+        with CondaContext(prefix_name="py313") as conda:
+            number, prefix = conda(get_exe, 1, 2)
         self.assertTrue("py313" in prefix.split(os.sep))
         self.assertEqual(number, 3)
