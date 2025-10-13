@@ -113,7 +113,7 @@ class CondaContext(object):
         ]
         if not self._hostname_localhost:
             command_lst += ["--host", gethostname()]
-        command_lst += ["--zmqport", str(interface.bind_to_random_port())]
+        command_lst += ["--zmqport", str(self._interface.bind_to_random_port())]
         self._interface.bootup(command_lst=command_lst)
         return self
 
@@ -126,7 +126,7 @@ class CondaContext(object):
             "resource_dict": {"cores": 1},
         }
         task_future.set_result(
-            interface.send_and_receive_dict(input_dict=task_dict)
+            self._interface.send_and_receive_dict(input_dict=task_dict)
         )
         return task_future.result()
 
