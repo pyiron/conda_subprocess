@@ -92,8 +92,13 @@ def conda(
     return conda_function
 
 
-class CondaContext(object):
-    def __init__(self, prefix_name: Optional[str] = None, prefix_path: Optional[str] = None, hostname_localhost: bool = False):
+class CondaContext:
+    def __init__(
+        self,
+        prefix_name: Optional[str] = None,
+        prefix_path: Optional[str] = None,
+        hostname_localhost: bool = False,
+    ):
         self._prefix_name = prefix_name
         self._prefix_path = prefix_path
         self._hostname_localhost = hostname_localhost
@@ -125,9 +130,7 @@ class CondaContext(object):
             "kwargs": kwargs,
             "resource_dict": {"cores": 1},
         }
-        task_future.set_result(
-            interface.send_and_receive_dict(input_dict=task_dict)
-        )
+        task_future.set_result(interface.send_and_receive_dict(input_dict=task_dict))
         return task_future.result()
 
     def __exit__(self, type, value, traceback):
