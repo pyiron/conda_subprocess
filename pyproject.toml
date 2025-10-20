@@ -74,26 +74,26 @@ ignore = [
 
 [tool.hatch.build]
 include = [
-    "conda_subprocess"
+    "src/conda_subprocess"
 ]
 
 [tool.hatch.build.hooks.vcs]
-version-file = "conda_subprocess/_version.py"
+version-file = "src/conda_subprocess/_version.py"
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "conda_subprocess"
+    "src/conda_subprocess"
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = [
-    "conda_subprocess"
+    "src/conda_subprocess"
 ]
 
 [tool.hatch.version]
 source = "vcs"
-path = "conda_subprocess/_version.py"
+path = "src/conda_subprocess/_version.py"
 
 [tool.coverage.run]
-omit = ["conda_subprocess/_version.py", "tests/*"]
+source = ["conda_subprocess"]
 command_line = "-m unittest discover tests"
