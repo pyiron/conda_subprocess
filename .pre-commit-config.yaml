@@ -5,6 +5,6 @@ repos:
       - id: ruff
         name: ruff lint
         args: ["--fix"]
-        files: ^conda_subprocess/
+        files: ^src/conda_subprocess/
       - id: ruff-format
         name: ruff format
