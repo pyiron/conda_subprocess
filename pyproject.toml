@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "conda==25.9.1",
+    "conda==25.11.0",
     "hatchling==1.27.0",
     "hatch-vcs==0.5.0",
 ]
@@ -30,7 +30,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "conda==25.9.1",
+    "conda==25.11.0",
 ]
 dynamic = ["version"]
 
@@ -39,7 +39,7 @@ Repository = "https://github.com/pyiron/conda_subprocess"
 
 [project.optional-dependencies]
 executorlib = [
-    "executorlib==1.7.1",
+    "executorlib==1.7.3",
 ]
 
 [tool.ruff]
@@ -75,26 +75,26 @@ ignore = [
 
 [tool.hatch.build]
 include = [
-    "conda_subprocess"
+    "src/conda_subprocess"
 ]
 
 [tool.hatch.build.hooks.vcs]
-version-file = "conda_subprocess/_version.py"
+version-file = "src/conda_subprocess/_version.py"
 
 [tool.hatch.build.targets.sdist]
 include = [
-    "conda_subprocess"
+    "src/conda_subprocess"
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = [
-    "conda_subprocess"
+    "src/conda_subprocess"
 ]
 
 [tool.hatch.version]
 source = "vcs"
-path = "conda_subprocess/_version.py"
+path = "src/conda_subprocess/_version.py"
 
 [tool.coverage.run]
-omit = ["conda_subprocess/_version.py", "tests/*"]
+source = ["conda_subprocess"]
 command_line = "-m unittest discover tests"
