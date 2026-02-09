@@ -132,16 +132,12 @@ def _locate_prefix_by_name(name, envs_dirs=None):
 def _validate_prefix_name(prefix_name: str, ctx: Context, allow_base=True) -> str:
     """Run various validations to make sure prefix_name is valid"""
     if PREFIX_NAME_DISALLOWED_CHARS.intersection(prefix_name):
-        raise CondaValueError(
-            dals(
-                f"""
+        raise CondaValueError(dals(f"""
                 Invalid environment name: {prefix_name!r}
                 Characters not allowed: {PREFIX_NAME_DISALLOWED_CHARS}
                 If you are specifying a path to an environment, the `-p`
                 flag should be used instead.
-                """
-            )
-        )
+                """))
 
     if prefix_name in (ROOT_ENV_NAME, "root"):
         if allow_base:
