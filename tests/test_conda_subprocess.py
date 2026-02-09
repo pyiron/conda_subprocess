@@ -31,7 +31,7 @@ class TestCondaSubprocess(unittest.TestCase):
 
     def test_check_output_path(self):
         expected_output = (
-            b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
+            b"Python 3.14.3\r\n" if os.name == "nt" else b"Python 3.14.3\n"
         )
         self.assertEqual(
             check_output("python --version", prefix_path=self.env_path, input=None),
@@ -40,7 +40,7 @@ class TestCondaSubprocess(unittest.TestCase):
 
     def test_check_output_name(self):
         expected_output = (
-            b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
+            b"Python 3.14.3\r\n" if os.name == "nt" else b"Python 3.14.3\n"
         )
         self.assertEqual(
             check_output("python --version", prefix_name=self.env_name),
@@ -60,7 +60,7 @@ class TestCondaSubprocess(unittest.TestCase):
             check_output(
                 "python --version", prefix_path=self.env_path, universal_newlines=True, input=None
             ),
-            "Python 3.13.2\n",
+            "Python 3.14.3\n",
         )
 
     def test_run_path(self):
@@ -75,7 +75,7 @@ class TestCondaSubprocess(unittest.TestCase):
 
     def test_popen_path(self):
         expected_output = (
-            b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
+            b"Python 3.14.3\r\n" if os.name == "nt" else b"Python 3.14.3\n"
         )
         process = Popen("python --version", prefix_path=self.env_path, stdout=PIPE)
         output = process.communicate()
@@ -84,7 +84,7 @@ class TestCondaSubprocess(unittest.TestCase):
 
     def test_popen_name(self):
         expected_output = (
-            b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
+            b"Python 3.14.3\r\n" if os.name == "nt" else b"Python 3.14.3\n"
         )
         process = Popen("python --version", prefix_name=self.env_name, stdout=PIPE)
         output = process.communicate()
