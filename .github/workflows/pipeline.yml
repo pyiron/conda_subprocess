@@ -60,8 +60,8 @@ jobs:
       timeout-minutes: 5
       run: |
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py313 python=3.14.3 conda=26.1.0 executorlib=1.8.0 hatchling=1.28.0 hatch-vcs=0.5.0
-        conda activate py313
+        conda create -y -n py314 python=3.14.3 conda=26.1.0 executorlib=1.8.0 hatchling=1.28.0 hatch-vcs=0.5.0
+        conda activate py314
         pip install . --no-deps --no-build-isolation
         conda deactivate
     - name: Test
@@ -159,8 +159,8 @@ jobs:
       timeout-minutes: 5
       run: |
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py313 python=3.14.3 conda=26.1.0 executorlib=1.8.0 hatchling=1.28.0 hatch-vcs=0.5.0
-        conda activate py313
+        conda create -y -n py314 python=3.14.3 conda=26.1.0 executorlib=1.8.0 hatchling=1.28.0 hatch-vcs=0.5.0
+        conda activate py314
         pip install . --no-deps --no-build-isolation
         conda deactivate
     - name: Test
@@ -188,7 +188,7 @@ jobs:
       timeout-minutes: 30
       run: |
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py313 python=3.13.2
+        conda create -y -n py314 python=3.14.3
         python -m unittest discover tests
 
   autobot:

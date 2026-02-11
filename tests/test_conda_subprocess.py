@@ -14,7 +14,7 @@ from conda_subprocess import call, check_call, check_output, run, Popen
 class TestCondaSubprocess(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.env_name = "py313"
+        cls.env_name = "py314"
         cls.env_path = os.path.join(context.root_prefix, "..", cls.env_name)
 
     def test_call_path(self):
@@ -51,7 +51,7 @@ class TestCondaSubprocess(unittest.TestCase):
         output_new = check_output("which python", prefix_name=self.env_name, universal_newlines=True)
         output_classic = subprocess_check_output(["conda", "run", "-p", self.env_path, "which", "python"], universal_newlines=True)
         self.assertTrue(
-            "py313" in output_new.split("/")
+            "py314" in output_new.split("/")
         )
         self.assertEqual(output_new.rstrip(), output_classic.rstrip())
 
