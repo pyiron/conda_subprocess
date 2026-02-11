@@ -14,7 +14,7 @@ from conda_subprocess import call, check_call, check_output, run, Popen
 class TestCondaSubprocess(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.env_name = "py313"
+        cls.env_name = "py314"
         cls.env_path = os.path.join(context.root_prefix, "..", cls.env_name)
 
     def test_call_path(self):
@@ -31,7 +31,7 @@ class TestCondaSubprocess(unittest.TestCase):
 
     def test_check_output_path(self):
         expected_output = (
-            b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
+            b"Python 3.14.3\r\n" if os.name == "nt" else b"Python 3.14.3\n"
         )
         self.assertEqual(
             check_output("python --version", prefix_path=self.env_path, input=None),
@@ -40,7 +40,7 @@ class TestCondaSubprocess(unittest.TestCase):
 
     def test_check_output_name(self):
         expected_output = (
-            b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
+            b"Python 3.14.3\r\n" if os.name == "nt" else b"Python 3.14.3\n"
         )
         self.assertEqual(
             check_output("python --version", prefix_name=self.env_name),
@@ -51,7 +51,7 @@ class TestCondaSubprocess(unittest.TestCase):
         output_new = check_output("which python", prefix_name=self.env_name, universal_newlines=True)
         output_classic = subprocess_check_output(["conda", "run", "-p", self.env_path, "which", "python"], universal_newlines=True)
         self.assertTrue(
-            "py313" in output_new.split("/")
+            "py314" in output_new.split("/")
         )
         self.assertEqual(output_new.rstrip(), output_classic.rstrip())
 
@@ -60,7 +60,7 @@ class TestCondaSubprocess(unittest.TestCase):
             check_output(
                 "python --version", prefix_path=self.env_path, universal_newlines=True, input=None
             ),
-            "Python 3.13.2\n",
+            "Python 3.14.3\n",
         )
 
     def test_run_path(self):
@@ -75,7 +75,7 @@ class TestCondaSubprocess(unittest.TestCase):
 
     def test_popen_path(self):
         expected_output = (
-            b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
+            b"Python 3.14.3\r\n" if os.name == "nt" else b"Python 3.14.3\n"
         )
         process = Popen("python --version", prefix_path=self.env_path, stdout=PIPE)
         output = process.communicate()
@@ -84,7 +84,7 @@ class TestCondaSubprocess(unittest.TestCase):
 
     def test_popen_name(self):
         expected_output = (
-            b"Python 3.13.2\r\n" if os.name == "nt" else b"Python 3.13.2\n"
+            b"Python 3.14.3\r\n" if os.name == "nt" else b"Python 3.14.3\n"
         )
         process = Popen("python --version", prefix_name=self.env_name, stdout=PIPE)
         output = process.communicate()
