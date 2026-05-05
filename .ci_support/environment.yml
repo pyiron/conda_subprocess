@@ -2,7 +2,6 @@ channels:
 - conda-forge
 dependencies:
 - coverage
-- pip
 - conda =26.1.0
 - executorlib =1.9.2
 - hatchling =1.29.0
