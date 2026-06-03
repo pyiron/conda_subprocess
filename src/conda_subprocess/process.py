@@ -4,10 +4,10 @@ from subprocess import Popen as subprocess_Popen
 from conda.auxlib.compat import shlex_split_unicode
 from conda.auxlib.ish import dals
 from conda.base.constants import PREFIX_NAME_DISALLOWED_CHARS
+from conda.gateways.disk.create import first_writable_envs_dir
 from conda.base.context import (
     ROOT_ENV_NAME,
     Context,
-    _first_writable_envs_dir,
     context,
 )
 from conda.cli.common import validate_prefix
@@ -156,4 +156,4 @@ def _validate_prefix_name(prefix_name: str, ctx: Context, allow_base=True) -> st
         try:
             return _locate_prefix_by_name(name=prefix_name, envs_dirs=envs_dirs)
         except EnvironmentNameNotFound:
-            return os.path.join(_first_writable_envs_dir(), prefix_name)
+            return os.path.join(first_writable_envs_dir(), prefix_name)
