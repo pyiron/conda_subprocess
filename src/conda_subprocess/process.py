@@ -3,8 +3,8 @@ from subprocess import Popen as subprocess_Popen
 
 from conda.auxlib.compat import shlex_split_unicode
 from conda.auxlib.ish import dals
+from conda.base.constants import PREFIX_NAME_DISALLOWED_CHARS
 from conda.base.context import (
-    PREFIX_NAME_DISALLOWED_CHARS,
     ROOT_ENV_NAME,
     Context,
     _first_writable_envs_dir,
