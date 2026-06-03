@@ -8,11 +8,15 @@ from conda.base.context import (
     ROOT_ENV_NAME,
     Context,
     context,
+    locate_prefix_by_name,
 )
-from conda.cli.common import validate_prefix
 from conda.common.compat import encode_environment, isiterable
 from conda.common.path import expand
-from conda.exceptions import CondaValueError, EnvironmentNameNotFound
+from conda.exceptions import (
+    CondaValueError,
+    EnvironmentLocationNotFound,
+    EnvironmentNameNotFound,
+)
 from conda.gateways.disk.create import first_writable_envs_dir
 from conda.utils import wrap_subprocess_call
 
@@ -46,7 +50,7 @@ def Popen(
     # create run script
     script, command = wrap_subprocess_call(
         root_prefix=context.root_prefix,
-        prefix=validate_prefix(
+        prefix=_validate_prefix(
             prefix=_check_prefix(
                 prefix_name=prefix_name,
                 prefix_path=prefix_path,
@@ -94,6 +98,12 @@ def Popen(
     )
 
 
+def _validate_prefix(prefix: str) -> str:
+    if not os.path.isdir(prefix):
+        raise EnvironmentLocationNotFound(prefix)
+    return prefix
+
+
 def _check_prefix(prefix_name=None, prefix_path=None):
     if prefix_name is None and prefix_path is None:
         return context.default_prefix
@@ -108,25 +118,6 @@ def _check_args(args):
         return args.split()
     else:
         return args
-
-
-def _locate_prefix_by_name(name, envs_dirs=None):
-    """
-    Find the location of a prefix given a conda env name.
-    If the location does not exist, an error is raised.
-    """
-    assert name
-    if name in (ROOT_ENV_NAME, "root"):
-        return context.root_prefix
-    if envs_dirs is None:
-        envs_dirs = context.envs_dirs
-    for envs_dir in envs_dirs:
-        if not os.path.isdir(envs_dir):
-            continue
-        prefix = os.path.join(envs_dir, name)
-        if os.path.isdir(prefix):
-            return os.path.abspath(prefix)
-    raise EnvironmentNameNotFound(name)
 
 
 def _validate_prefix_name(prefix_name: str, ctx: Context, allow_base=True) -> str:
@@ -154,6 +145,6 @@ def _validate_prefix_name(prefix_name: str, ctx: Context, allow_base=True) -> st
             os.path.abspath(os.path.join(os.environ["CONDA_EXE"], "..", "..", "envs")),
         )
         try:
-            return _locate_prefix_by_name(name=prefix_name, envs_dirs=envs_dirs)
+            return locate_prefix_by_name(name=prefix_name, envs_dirs=envs_dirs)
         except EnvironmentNameNotFound:
             return os.path.join(first_writable_envs_dir(), prefix_name)
