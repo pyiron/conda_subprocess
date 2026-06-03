@@ -4,7 +4,6 @@ from subprocess import Popen as subprocess_Popen
 from conda.auxlib.compat import shlex_split_unicode
 from conda.auxlib.ish import dals
 from conda.base.constants import PREFIX_NAME_DISALLOWED_CHARS
-from conda.gateways.disk.create import first_writable_envs_dir
 from conda.base.context import (
     ROOT_ENV_NAME,
     Context,
@@ -14,6 +13,7 @@ from conda.cli.common import validate_prefix
 from conda.common.compat import encode_environment, isiterable
 from conda.common.path import expand
 from conda.exceptions import CondaValueError, EnvironmentNameNotFound
+from conda.gateways.disk.create import first_writable_envs_dir
 from conda.utils import wrap_subprocess_call
 
 
