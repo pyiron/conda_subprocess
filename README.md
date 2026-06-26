@@ -1,6 +1,7 @@
 # conda subprocess
 [![Pipeline](https://github.com/pyiron/conda_subprocess/actions/workflows/pipeline.yml/badge.svg)](https://github.com/pyiron/conda_subprocess/actions/workflows/pipeline.yml)
 [![codecov](https://codecov.io/gh/pyiron/conda_subprocess/graph/badge.svg?token=A49EEAWV9B)](https://codecov.io/gh/pyiron/conda_subprocess)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/pyiron/conda_subprocess/HEAD)
 
 Run a subprocess in a different conda environment. 
 
