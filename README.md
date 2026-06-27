@@ -116,6 +116,7 @@ add_function(parameter_1=1, parameter_2=2)
 ## Documentation 
 
 * [conda_subprocess](https://conda-subprocess.readthedocs.io/en/latest/README.html)
+  * [Installation](https://conda-subprocess.readthedocs.io/en/latest/README.html#installation)
   * [Example](https://conda-subprocess.readthedocs.io/en/latest/README.html#example)
   * [Remarks](https://conda-subprocess.readthedocs.io/en/latest/README.html#remarks)
 * [demo](https://conda-subprocess.readthedocs.io/en/latest/demo.html)
