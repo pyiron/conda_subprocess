@@ -1,1 +1,5 @@
 pip install . --no-deps --no-build-isolation
+
+cp notebooks/demo.ipynb .
+
+rm -r .ci_support .github binder docs notebooks src tests .gitignore .pre-commit-config.yaml .readthedocs.yaml LICENSE MANIFEST.in README.md pyproject.toml
