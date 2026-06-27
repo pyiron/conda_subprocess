@@ -47,6 +47,26 @@ def Popen(
     text=None,
     umask=-1,
 ):
+    """
+    Execute args in a different conda environment, mirroring the standard library's
+    :class:`subprocess.Popen` interface.
+
+    In addition to the regular :class:`subprocess.Popen` arguments, this accepts:
+
+    Args:
+        prefix_name (str): Name of the conda environment the command should be executed
+            in, e.g. ``"py312"``.
+        prefix_path (str): Absolute path of the conda environment the command should be
+            executed in, e.g. ``"/home/user/mambaforge/envs/py312"``.
+
+    If both `prefix_name` and `prefix_path` are `None`, the currently active conda
+    environment is used. `prefix_path` takes precedence if both are specified.
+
+    The `shell` parameter is not supported - commands are always executed via the conda
+    activation wrapper script, not a shell. The `pipesize` and `process_group`
+    parameters were removed for compatibility with Python 3.9. `env` is merged on top
+    of the current process environment rather than replacing it.
+    """
     # create run script
     script, command = wrap_subprocess_call(
         root_prefix=context.root_prefix,
