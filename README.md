@@ -86,3 +86,16 @@ add_function(parameter_1=1, parameter_2=2)
 ## Remarks
 * The `shell` parameter and the `env` parameter are not supported in `Popen()` and all derived methods. 
 * The `pipesize` parameter and the `process_group` parameter were removed for compatibility with python 3.9. 
+
+## Documentation 
+
+* [conda_subprocess](https://conda-subprocess.readthedocs.io/en/latest/README.html)
+  * [Example](https://conda-subprocess.readthedocs.io/en/latest/README.html#example)
+  * [Remarks](https://conda-subprocess.readthedocs.io/en/latest/README.html#remarks)
+* [demo](https://conda-subprocess.readthedocs.io/en/latest/demo.html)
+  * [Setup](https://conda-subprocess.readthedocs.io/en/latest/demo.html#setup)
+  * [Subprocess interface](https://conda-subprocess.readthedocs.io/en/latest/demo.html#subprocess-interface)
+  * [The conda decorator](https://conda-subprocess.readthedocs.io/en/latest/demo.html#the-conda-decorator)
+  * [Remarks](https://conda-subprocess.readthedocs.io/en/latest/demo.html#remarks)
+  * [Cleanup](https://conda-subprocess.readthedocs.io/en/latest/demo.html#cleanup)
+* [Interface](https://conda-subprocess.readthedocs.io/en/latest/api.html)
