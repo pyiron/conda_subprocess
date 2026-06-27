@@ -9,6 +9,22 @@ from conda_subprocess.process import Popen
 
 
 class CondaSpawner(SubprocessSpawner):
+    """
+    executorlib `SubprocessSpawner` which starts the worker process with
+    `conda_subprocess.Popen()` instead of the regular `subprocess.Popen()`, so the
+    worker runs inside the conda environment selected by `prefix_name`/`prefix_path`.
+
+    Args:
+        cwd (str): Working directory to start the worker process in.
+        cores (int): Number of cores to use for the worker process.
+        openmpi_oversubscribe (bool): Whether to oversubscribe the worker process.
+        threads_per_core (int): Number of threads per core.
+        prefix_name (str): Name of the conda environment the worker process should be
+            executed in.
+        prefix_path (str): Absolute path of the conda environment the worker process
+            should be executed in.
+    """
+
     def __init__(
         self,
         cwd: Optional[str] = None,
@@ -57,6 +73,38 @@ def conda(
     prefix_path: Optional[str] = None,
     hostname_localhost: bool = False,
 ):
+    """
+    Decorator to execute a python function in a different conda environment, built on
+    top of `executorlib`.
+
+    The decorated function (including its arguments and return value) is shipped to a
+    worker process running in the target conda environment via `cloudpickle`, so the
+    target environment's Python minor version must match the one used to define the
+    decorated function.
+
+    Args:
+        prefix_name (str): Name of the conda environment the function should be
+            executed in, e.g. `"py312"`.
+        prefix_path (str): Absolute path of the conda environment the function should
+            be executed in.
+        hostname_localhost (bool): Use `localhost` instead of the system hostname to
+            establish the connection to the worker process. Required in restricted
+            network environments such as containers or HPC login nodes where the
+            hostname cannot be resolved.
+
+    Returns:
+        Callable: Decorator which wraps the given function so it executes in the
+            target conda environment.
+
+    Example:
+        >>> from conda_subprocess.decorator import conda
+        >>> @conda(prefix_name="py312")
+        ... def add_function(parameter_1, parameter_2):
+        ...     return parameter_1 + parameter_2
+        >>> add_function(parameter_1=1, parameter_2=2)
+        3
+    """
+
     def conda_function(funct):
         def function_wrapped(*args, **kwargs):
             task_future = Future()

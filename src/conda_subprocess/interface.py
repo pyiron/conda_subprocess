@@ -12,9 +12,11 @@ def call(*popenargs, timeout=None, **kwargs):
     """Run command with arguments.  Wait for command to complete or
     timeout, then return the returncode attribute.
 
-    The arguments are the same as for the Popen constructor.  Example:
+    The arguments are the same as for the Popen constructor, including the additional
+    `prefix_name`/`prefix_path` keyword arguments used to select the target conda
+    environment (see :func:`conda_subprocess.process.Popen`).  Example:
 
-    retcode = call(["ls", "-l"])
+    retcode = call(["ls", "-l"], prefix_name="py312")
     """
     with Popen(*popenargs, **kwargs) as p:
         try:
@@ -31,9 +33,11 @@ def check_call(*popenargs, **kwargs):
     CalledProcessError.  The CalledProcessError object will have the
     return code in the returncode attribute.
 
-    The arguments are the same as for the call function.  Example:
+    The arguments are the same as for the call function, including the additional
+    `prefix_name`/`prefix_path` keyword arguments used to select the target conda
+    environment.  Example:
 
-    check_call(["ls", "-l"])
+    check_call(["ls", "-l"], prefix_name="py312")
     """
     retcode = call(*popenargs, **kwargs)
     if retcode:
@@ -51,7 +55,9 @@ def check_output(*popenargs, timeout=None, **kwargs):
     CalledProcessError object will have the return code in the returncode
     attribute and output in the output attribute.
 
-    The arguments are the same as for the Popen constructor.  Example:
+    The arguments are the same as for the Popen constructor, including the additional
+    `prefix_name`/`prefix_path` keyword arguments used to select the target conda
+    environment (see :func:`conda_subprocess.process.Popen`).  Example:
 
     >>> check_output(["ls", "-l", "/dev/null"])
     b'crw-rw-rw- 1 root root 1, 3 Oct 18  2007 /dev/null\n'
@@ -129,7 +135,9 @@ def run(
     according to locale encoding, or by "encoding" if set. Text mode is
     triggered by setting any of text, encoding, errors or universal_newlines.
 
-    The other arguments are the same as for the Popen constructor.
+    The other arguments are the same as for the Popen constructor, including the
+    additional `prefix_name`/`prefix_path` keyword arguments used to select the target
+    conda environment (see :func:`conda_subprocess.process.Popen`).
     """
     if input is not None:
         if kwargs.get("stdin") is not None:

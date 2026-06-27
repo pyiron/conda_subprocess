@@ -5,6 +5,24 @@
 
 Run a subprocess in a different conda environment. 
 
+## Installation
+`conda_subprocess` is available on [PyPI](https://pypi.org/project/conda-subprocess/) and
+[conda-forge](https://anaconda.org/conda-forge/conda_subprocess):
+```commandline
+pip install conda_subprocess
+```
+or
+```commandline
+conda install -c conda-forge conda_subprocess
+```
+The `@conda` decorator additionally requires [`executorlib`](https://github.com/pyiron/executorlib), which can be
+installed via the `executorlib` extra:
+```commandline
+pip install conda_subprocess[executorlib]
+```
+A working `conda` (or `mamba`) installation is required at runtime - `conda_subprocess` locates it via the
+`CONDA_EXE` environment variable, which is set automatically inside an activated conda environment.
+
 ## Example 
 Create a new conda environment - in this example a conda environment for Python 3.12:
 ```commandline
@@ -12,6 +30,14 @@ conda create -n py312 python=3.12
 ```
 
 ### Subprocess Interface
+`conda_subprocess` mirrors the [`subprocess`](https://docs.python.org/3/library/subprocess.html) module
+(`call()`, `check_call()`, `check_output()`, `run()`, `Popen()`) and adds two keyword arguments to all of them
+to select the target environment:
+* `prefix_name` - the name of the target conda environment, e.g. `"py312"`
+* `prefix_path` - the absolute path of the target conda environment, e.g. `"/home/user/mambaforge/envs/py312"`
+
+If neither is given, the currently active conda environment is used, just like with a plain `subprocess` call.
+
 Open a python shell in your base environment where `conda_subprocess` is installed and execute `python --version` in the
 `py312` environment:
 ```python
