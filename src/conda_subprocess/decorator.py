@@ -127,9 +127,12 @@ def conda(
                 command_lst += ["--host", gethostname()]
             command_lst += ["--zmqport", str(interface.bind_to_random_port())]
             interface.bootup(command_lst=command_lst)
-            result = interface.send_and_receive_dict(input_dict=task_dict)
+            output = interface.send_and_receive_dict(input_dict=task_dict)
             interface.shutdown(wait=True)
-            return result
+            if "result" in output:
+                return output["result"]
+            else:
+                raise output["error"]
 
         return function_wrapped
 
