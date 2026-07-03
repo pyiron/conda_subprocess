@@ -1,5 +1,4 @@
 import subprocess
-from concurrent.futures import Future
 from socket import gethostname
 from typing import Callable, Optional
 
@@ -107,7 +106,6 @@ def conda(
 
     def conda_function(funct):
         def function_wrapped(*args, **kwargs):
-            task_future = Future()
             task_dict = {
                 "fn": funct,
                 "args": args,
@@ -129,11 +127,9 @@ def conda(
                 command_lst += ["--host", gethostname()]
             command_lst += ["--zmqport", str(interface.bind_to_random_port())]
             interface.bootup(command_lst=command_lst)
-            task_future.set_result(
-                interface.send_and_receive_dict(input_dict=task_dict)
-            )
+            result = interface.send_and_receive_dict(input_dict=task_dict)
             interface.shutdown(wait=True)
-            return task_future.result()
+            return result
 
         return function_wrapped
 
