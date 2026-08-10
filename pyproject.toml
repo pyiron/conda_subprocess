@@ -69,6 +69,8 @@ select = [
 ignore = [
     # Too many arguments in function definition
     "PLR0913",
+    # Too many not-keyword-only arguments,
+    "PLR0917",
     # ignore unsafe arguments
     "PLW1509",
 ]
