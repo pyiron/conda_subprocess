@@ -129,6 +129,8 @@ def conda(
             interface.bootup(command_lst=command_lst)
             output = interface.send_and_receive_dict(input_dict=task_dict)
             interface.shutdown(wait=True)
+            if not isinstance(output, dict):
+                return output
             if "result" in output:
                 return output["result"]
             else:
