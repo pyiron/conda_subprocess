@@ -39,7 +39,7 @@ Repository = "https://github.com/pyiron/conda_subprocess"
 
 [project.optional-dependencies]
 executorlib = [
-    "executorlib==1.10.1",
+    "executorlib==1.10.2",
 ]
 
 [tool.ruff]
@@ -69,6 +69,8 @@ select = [
 ignore = [
     # Too many arguments in function definition
     "PLR0913",
+    # Too many not-keyword-only arguments,
+    "PLR0917",
     # ignore unsafe arguments
     "PLW1509",
 ]
