@@ -3,7 +3,7 @@ channels:
 dependencies:
 - conda =26.7.2
 - executorlib =1.10.3
-- hatchling =1.32.0
+- hatchling =1.32.4
 - hatch-vcs =0.5.0
 - myst-parser
 - nbsphinx
