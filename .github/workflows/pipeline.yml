@@ -173,10 +173,13 @@ jobs:
         miniforge-version: latest
         condarc-file: .condarc
         environment-file: .ci_support/environment.yml
+        run-init: "false"
     - name: Build Test Environment
       shell: bash -l {0}
       timeout-minutes: 5
       run: |
+        source "$CONDA/etc/profile.d/conda.sh"
+        conda activate test
         pip install . --no-deps --no-build-isolation
         conda create -y -n py314 python=3.14.3 pip conda=26.7.2 executorlib=1.11.0 hatchling=1.32.4 hatch-vcs=0.5.0
         conda activate py314
@@ -186,6 +189,8 @@ jobs:
       shell: bash -l {0}
       timeout-minutes: 5
       run: |
+        source "$CONDA/etc/profile.d/conda.sh"
+        conda activate test
         python -m unittest discover tests
 
   unittest_old:
