@@ -9,7 +9,7 @@ jobs:
   black:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - uses: psf/black@stable
       with:
         options: "--check --diff"
@@ -20,7 +20,7 @@ jobs:
     if: failure()
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
       with:
         token: ${{ secrets.DEPENDABOT_WORKFLOW_TOKEN }}
         ref: ${{ github.event.pull_request.head.ref }} # Check out the head of the actual branch, not the PR
@@ -45,11 +45,11 @@ jobs:
     needs: [black]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Conda config
       shell: bash -l {0}
       run: echo -e "channels:\n  - conda-forge\n" > .condarc
-    - uses: conda-incubator/setup-miniconda@v3
+    - uses: conda-incubator/setup-miniconda@v4
       with:
         python-version: '3.14'
         miniforge-version: latest
@@ -60,7 +60,7 @@ jobs:
       timeout-minutes: 5
       run: |
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py314 python=3.14.3 pip conda=26.7.2 executorlib=1.10.3 hatchling=1.32.4 hatch-vcs=0.5.0
+        conda create -y -n py314 python=3.14.3 pip conda=26.7.2 executorlib=1.11.0 hatchling=1.32.4 hatch-vcs=0.5.0
         conda activate py314
         pip install . --no-deps --no-build-isolation
         conda deactivate
@@ -82,12 +82,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.14"
           architecture: x64
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Install mypy
         run: pip install mypy
       - name: Test
@@ -97,11 +97,11 @@ jobs:
     needs: [black]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Conda config
       run: echo -e "channels:\n  - conda-forge\n" > .condarc
     - name: Setup Mambaforge
-      uses: conda-incubator/setup-miniconda@v3
+      uses: conda-incubator/setup-miniconda@v4
       with:
         python-version: '3.14'
         miniforge-version: latest
@@ -120,11 +120,11 @@ jobs:
     needs: [black]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Merge Notebook environment
         run: echo "- papermill" >> binder/environment.yml
       - name: Setup Mambaforge
-        uses: conda-incubator/setup-miniconda@v3
+        uses: conda-incubator/setup-miniconda@v4
         with:
           python-version: "3.13"
           miniforge-version: latest
@@ -163,11 +163,11 @@ jobs:
           python-version: '3.11'
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Conda config
       shell: bash -l {0}
       run: echo -e "channels:\n  - conda-forge\n" > .condarc
-    - uses: conda-incubator/setup-miniconda@v3
+    - uses: conda-incubator/setup-miniconda@v4
       with:
         python-version: ${{ matrix.python-version }}
         miniforge-version: latest
@@ -178,7 +178,7 @@ jobs:
       timeout-minutes: 5
       run: |
         pip install . --no-deps --no-build-isolation
-        conda create -y -n py314 python=3.14.3 pip conda=26.7.2 executorlib=1.10.3 hatchling=1.32.4 hatch-vcs=0.5.0
+        conda create -y -n py314 python=3.14.3 pip conda=26.7.2 executorlib=1.11.0 hatchling=1.32.4 hatch-vcs=0.5.0
         conda activate py314
         pip install . --no-deps --no-build-isolation
         conda deactivate
@@ -192,11 +192,11 @@ jobs:
     needs: [black]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
     - name: Conda config
       run: echo -e "channels:\n  - conda-forge\n" > .condarc
     - name: Setup Mambaforge
-      uses: conda-incubator/setup-miniconda@v3
+      uses: conda-incubator/setup-miniconda@v4
       with:
         python-version: '3.10'
         miniforge-version: latest
