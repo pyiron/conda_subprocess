@@ -3,5 +3,5 @@ channels:
 dependencies:
 - python
 - conda =26.3.1
-- hatchling =1.27.0
+- hatchling =1.33.0
 - hatch-vcs =0.4.0
